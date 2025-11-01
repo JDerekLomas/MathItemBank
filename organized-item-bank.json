@@ -1,0 +1,154 @@
+{
+  "hierarchy": {
+    "grades": [
+      {
+        "grade": "11",
+        "domains": [
+          {
+            "domain": "Algebra",
+            "clusters": [
+              {
+                "cluster": "Reasoning Equations Inequalities",
+                "standards": [
+                  {
+                    "standard": {
+                      "id": "std_10",
+                      "code": "enVAGA_CCA2",
+                      "parentCategory": "Reasoning with Equations and Inequalities",
+                      "description": "Understand that the graph of an equation in two variables is the set of all its solutions plotted in the coordinate plane| often forming a curve (which could be a line).",
+                      "gradeLevel": "11",
+                      "domain": "Algebra",
+                      "cluster": "Reasoning Equations Inequalities",
+                      "standardId": "enVAGA_CCA2",
+                      "subskillIds": [
+                        "subskill_std_10_1",
+                        "subskill_std_10_2",
+                        "subskill_std_10_3",
+                        "subskill_std_10_4"
+                      ],
+                      "complexity": 0.8,
+                      "relatedStandards": []
+                    },
+                    "subskills": [],
+                    "items": [],
+                    "totalItems": 0,
+                    "totalSubskills": 0,
+                    "coveragePercentage": 0
+                  }
+                ],
+                "totalStandards": 1,
+                "totalItems": 0,
+                "totalSubskills": 0
+              }
+            ],
+            "totalStandards": 1,
+            "totalItems": 0,
+            "totalSubskills": 0
+          },
+          {
+            "domain": "Geometry",
+            "clusters": [
+              {
+                "cluster": "Congruence",
+                "standards": [
+                  {
+                    "standard": {
+                      "id": "std_172",
+                      "code": "enVAGA_CCA2",
+                      "parentCategory": "Congruence",
+                      "description": "Explain how the criteria for triangle congruence (ASA| SAS| and SSS) follow from the definition of congruence in terms of rigid motions.",
+                      "gradeLevel": "11",
+                      "domain": "Geometry",
+                      "cluster": "Congruence",
+                      "standardId": "enVAGA_CCA2",
+                      "subskillIds": [
+                        "subskill_std_172_1",
+                        "subskill_std_172_2",
+                        "subskill_std_172_3",
+                        "subskill_std_172_4"
+                      ],
+                      "complexity": 0.7,
+                      "relatedStandards": []
+                    },
+                    "subskills": [],
+                    "items": [],
+                    "totalItems": 0,
+                    "totalSubskills": 0,
+                    "coveragePercentage": 0
+                  }
+                ],
+                "totalStandards": 1,
+                "totalItems": 0,
+                "totalSubskills": 0
+              }
+            ],
+            "totalStandards": 1,
+            "totalItems": 0,
+            "totalSubskills": 0
+          }
+        ],
+        "totalStandards": 2,
+        "totalItems": 0,
+        "totalSubskills": 0
+      }
+    ],
+    "metadata": {
+      "totalGrades": 1,
+      "totalStandards": 2,
+      "totalItems": 5,
+      "totalSubskills": 20,
+      "gradeLevels": [
+        "11"
+      ],
+      "domains": [
+        "Algebra",
+        "Geometry"
+      ],
+      "lastUpdated": "2025-11-01T14:27:07.783Z"
+    }
+  },
+  "statistics": {
+    "overallCoverage": 0,
+    "gradeLevelCoverage": [
+      {
+        "grade": "11",
+        "coverage": 0
+      }
+    ],
+    "domainCoverage": [
+      {
+        "domain": "Algebra",
+        "coverage": 0
+      },
+      {
+        "domain": "Geometry",
+        "coverage": 0
+      }
+    ],
+    "difficultyDistribution": {
+      "beginning": 0,
+      "developing": 0,
+      "proficient": 0,
+      "advanced": 0
+    }
+  },
+  "metadata": {
+    "totalGrades": 1,
+    "totalStandards": 2,
+    "totalItems": 5,
+    "totalSubskills": 20,
+    "gradeLevels": [
+      "11"
+    ],
+    "domains": [
+      "Algebra",
+      "Geometry"
+    ],
+    "lastUpdated": "2025-11-01T14:27:07.783Z",
+    "organizedAt": "2025-11-01T14:27:07.784Z",
+    "sourceFiles": [
+      "enhanced-item-bank.json",
+      "subskills.csv"
+    ]
+  }
+}
