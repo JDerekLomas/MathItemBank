@@ -1,0 +1,39 @@
+name: Tests
+
+env:
+  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+  HEADLESS: true
+  RAILS_ENV: test
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  tests:
+    timeout-minutes: 30
+    runs-on: ubuntu-22.04
+    services:
+      postgres:
+        image: postgres:11
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        env:
+          POSTGRES_USER: ox_exercises
+          POSTGRES_PASSWORD: ox_exercises
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Test
+        run: |
+          bin/rake parallel:create parallel:load_schema parallel:seed --trace
+          WORKERS=4 bin/rake parallel:spec

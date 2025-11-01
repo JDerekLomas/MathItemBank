@@ -1,0 +1,23 @@
+name: Assets
+
+env:
+  RAILS_ENV: test
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  assets:
+    timeout-minutes: 30
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Build assets
+        run: bin/rake assets:precompile

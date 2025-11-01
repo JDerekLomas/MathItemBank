@@ -1,0 +1,68 @@
+name: Migrations
+
+env:
+  RAILS_ENV: test
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+
+jobs:
+  migrations:
+    timeout-minutes: 30
+    runs-on: ubuntu-22.04
+    services:
+      postgres:
+        image: postgres:11
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        env:
+          POSTGRES_USER: ox_exercises
+          POSTGRES_PASSWORD: ox_exercises
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        # Set health checks to wait until redis has started
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      # Clone repo and checkout merge commit parent (PR target commit)
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - run: git checkout HEAD^
+
+      # Install ruby
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      # Create data to be migrated and revert to PR merge commit
+      - name: Create data to be migrated
+        run: |
+          bin/rake db:create db:schema:load db:seed --trace
+          bin/rails runner '10.times { FactoryBot.create :exercise }'
+          git checkout --force -
+
+      # Install PR ruby version
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      # Migrate the data
+      - name: Migrate
+        run: bin/rake db:migrate
