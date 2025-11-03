@@ -1,40 +1,97 @@
-# Math Item Bank Generator
+# Math Item Bank
 
-A comprehensive K12 math item bank generator that creates assessment items based on educational standards. This system parses standard mappings, generates diverse math problems, and exports them in various formats suitable for educational platforms.
+🚀 **AI-Powered Comprehensive K-12 Mathematics Assessment Generation Platform**
 
-## Features
+A sophisticated system for generating, evaluating, and managing high-quality mathematics assessment items aligned with educational standards. Built with TypeScript/Next.js and enhanced with Claude Code skills for professional-grade item development.
 
-- 📊 **Standard Parsing**: Parse and organize K12 math standards from CSV files
-- 🔧 **Item Generation**: Generate diverse math items (multiple choice, short answer, etc.)
-- 📈 **Multiple Domains**: Supports Algebra, Geometry, Functions, Statistics, and more
-- 🎯 **Difficulty Levels**: Beginning, Developing, Proficient, and Advanced items
-- 💾 **Export Formats**: JSON, CSV, QTI, Moodle XML
-- 🔍 **Filtering & Search**: Filter items by grade, domain, difficulty, type, and keywords
-- 📝 **Rich Metadata**: Include timing, calculator requirements, and educational metadata
+## 🎯 Vision
 
-## Quick Start
+Transform mathematics assessment creation through AI-powered workflows that:
+- **Ingest** existing OER content (OpenStax, CK-12, etc.)
+- **Decompose** standards into assessable subskills
+- **Generate** high-quality items with variation capabilities
+- **Evaluate** using research-backed quality frameworks
+- **Ensure** accessibility, equity, and standards alignment
+
+## ✨ Key Features
+
+### 🔄 AI-Powered Workflow System
+Five interconnected Claude Code skills guide the complete item development lifecycle:
+
+1. **[Item Bank Construction](.claude/skills/item-bank-builder/)** – OER content ingestion and extraction
+2. **[Subskill Decomposition](.claude/skills/subskill-decomposer/)** – Standards analysis and framework creation
+3. **[Metadata Tagging](.claude/skills/metadata-tagger/)** – Organization and searchability enhancement
+4. **[Variation Generation](.claude/skills/variation-generator/)** – Efficient item expansion through proven patterns
+5. **[New Item Generation](.claude/skills/new-item-generator/)** – Novel item creation for coverage gaps
+
+### 🔍 Professional Evaluation Suite
+Research-backed evaluation skills ensuring assessment quality:
+
+- **[Item Quality Evaluation](.claude/skills/item-evaluator/)** – AERA/APA/NCME standards with Evidence-Centered Design
+- **[Distractor Analysis](.claude/skills/distractor-analysis/)** – IRT-based statistical analysis with misconception targeting
+- **[Alignment Validation](.claude/skills/alignment-validator/)** – Webb's alignment methodology and DOK analysis
+- **[Accessibility Checking](.claude/skills/formatting-checker/)** – WCAG 2.1 compliance and mathematical accessibility
+- **[Equity Evaluation](.claude/skills/equity-evaluator/)** – Cultural bias analysis and differential impact assessment
+
+### 🛠 Core Capabilities
+- **Standards-Based Design** – Full alignment with CCSS, state standards, and custom frameworks
+- **Multiple Item Types** – Multiple choice, free response, performance tasks, technology-enhanced
+- **Quality Assurance** – Multi-dimensional evaluation with statistical validation
+- **Accessibility First** – WCAG 2.1 AA compliance with mathematical notation support
+- **Equity Focused** – Cultural responsiveness and bias prevention frameworks
+- **Export Flexibility** – JSON, CSV, QTI, Moodle formats for seamless integration
+
+## 🚀 Getting Started
 
 ### Prerequisites
-
-- Node.js 16+
-- TypeScript
+- Node.js 16.0.0+
+- Claude Code (for AI skill capabilities)
 
 ### Installation
-
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd math-item-bank
-
-# Install dependencies
+git clone https://github.com/JDerekLomas/MathItemBank.git
+cd MathItemBank
 npm install
-
-# Build the project
-npm run build
 ```
 
-### Basic Usage
+### Development
+```bash
+# Start development server
+npm run dev
 
+# Generate sample items
+npm run generate
+
+# Enhanced generation with evaluation
+npm run generate:enhanced
+
+# Type checking
+npm run type-check
+
+# Linting
+npm run lint
+```
+
+### Claude Code Skills Setup
+The AI skills are automatically available in `.claude/skills/`. Each skill includes comprehensive documentation and usage examples.
+
+### Sample Usage
+```typescript
+import { generateItem, evaluateItem } from './lib/item-generator';
+
+// Generate a new assessment item
+const result = await generateItem({
+  standard: mathStandard,
+  itemType: 'multiple_choice',
+  difficulty: 'proficient',
+  context: 'real-world application'
+});
+
+// Evaluate item quality
+const evaluation = await evaluateItem(result.item);
+```
+
+### Traditional Usage (Library Mode)
 ```typescript
 import { ItemBankManager } from './lib/item-bank';
 import { ExportManager } from './lib/export-manager';
@@ -59,13 +116,9 @@ const jsonExport = ExportManager.exportToJSON(itemBankData, {
   includeAnswers: true,
   includeMetadata: true
 });
-
-// Save to file
-await ExportManager.saveToFile(jsonExport, 'item-bank.json');
 ```
 
-### Running the Sample
-
+### Running Examples
 ```bash
 # Run the sample generation script
 npm run generate
@@ -77,38 +130,121 @@ This will:
 3. Export items in multiple formats
 4. Display statistics and examples
 
-## Project Structure
+## 🏗 Architecture
 
+### Data Model
+```typescript
+interface MathItem {
+  id: string;
+  standardId: string;
+  subskillIds: string[];
+  type: ItemType;
+  difficulty: Difficulty;
+  title: string;
+  question: string;
+  correctAnswer: string | number;
+  distractors?: (string | number)[];
+  explanation: string;
+  hints: string[];
+  metadata: ItemMetadata;
+}
 ```
-src/
-├── types/                 # TypeScript type definitions
-│   └── index.ts          # Core type definitions
-├── lib/                  # Core library modules
-│   ├── standards-parser.ts    # CSV parsing and standard organization
-│   ├── item-generator.ts      # Item generation logic
-│   ├── item-bank.ts          # Main item bank manager
-│   └── export-manager.ts     # Export functionality
-├── examples/             # Example scripts and usage
-│   └── sample-generation.ts  # Sample generation demo
-└── index.ts             # Main entry point
+
+### Project Structure
+```
+MathItemBank/
+├── .claude/skills/               # 🤖 Claude Code AI Skills
+│   ├── item-bank-builder/        # OER content ingestion
+│   ├── subskill-decomposer/      # Standards analysis
+│   ├── metadata-tagger/          # Organization enhancement
+│   ├── variation-generator/      # Item expansion
+│   ├── new-item-generator/       # Novel creation
+│   ├── item-evaluator/           # Quality assessment
+│   ├── distractor-analysis/      # Statistical analysis
+│   ├── alignment-validator/      # Standards alignment
+│   ├── formatting-checker/       # Accessibility compliance
+│   └── equity-evaluator/         # Bias analysis
+├── src/
+│   ├── types/                    # TypeScript type definitions
+│   │   └── index.ts              # Core type definitions
+│   ├── lib/                      # Core library modules
+│   │   ├── standards-parser.ts   # CSV parsing and organization
+│   │   ├── item-generator.ts     # Item generation logic
+│   │   ├── item-bank.ts          # Main item bank manager
+│   │   └── export-manager.ts     # Export functionality
+│   ├── app/                      # Next.js app router pages
+│   ├── examples/                 # Example scripts and usage
+│   │   ├── sample-generation.ts  # Basic generation demo
+│   │   └── enhanced-sample-generation.ts # Advanced demo
+│   └── scripts/                  # Utility scripts
+└── temp_clone/                   # Cloned repository content
 ```
 
-## Supported Standards Format
+### Item Generation Pipeline
+1. **Standard Analysis** → Subskill decomposition
+2. **Content Creation** → AI generation with exemplar guidance
+3. **Quality Evaluation** → Multi-dimensional assessment
+4. **Accessibility Review** → WCAG compliance checking
+5. **Equity Validation** → Bias and fairness analysis
+6. **Metadata Enhancement** → Searchability and organization
 
-The system expects CSV files with the following columns:
-- `root_std_name`: Standard code/identifier
-- `parent_standard_description`: Parent category/domain
-- `standard_description`: Detailed standard description
+## 📊 Supported Standards
 
-## Item Types
+### Mathematics Standards
+- **Common Core State Standards (CCSS)** – K-12 Mathematics
+- **State Standards** – Customizable framework support
+- **International Standards** – Adaptable to various curricula
 
-- **Multiple Choice**: Questions with 4 options (1 correct, 3 distractors)
-- **True/False**: Boolean questions
-- **Short Answer**: Open-ended responses
-- **Extended Response**: Longer written responses with rubrics
-- **Performance Tasks**: Complex problem-solving scenarios
+### Grade Levels
+- **Elementary** (K-5) – Foundations and conceptual understanding
+- **Middle School** (6-8) – Procedural fluency and application
+- **High School** (9-12) – Advanced mathematical reasoning
 
-## Export Formats
+### Content Domains
+- **Numbers & Operations** – Arithmetic, number theory
+- **Algebra** – Equations, functions, mathematical modeling
+- **Geometry** – Spatial reasoning, measurement, proof
+- **Statistics & Probability** – Data analysis, probability theory
+- **Mathematical Practices** – Problem solving, reasoning, communication
+
+## 📈 Item Types
+
+### Traditional Formats
+- **Multiple Choice** – Standard 4-5 option items
+- **True/False** – Binary response items
+- **Short Answer** – Brief constructed responses
+- **Extended Response** – Detailed explanations and proofs
+
+### Enhanced Formats
+- **Performance Tasks** – Multi-step problem solving
+- **Drag & Drop** – Interactive categorization and ordering
+- **Graphing** – Coordinate plane and function visualization
+- **Equation Editor** – Mathematical expression input
+
+### Technology-Enhanced
+- **Dynamic Geometry** – Interactive geometric constructions
+- **Simulations** – Mathematical modeling environments
+- **Adaptive Items** – Response-based branching scenarios
+
+## 🔬 Quality Frameworks
+
+### Assessment Standards
+- **AERA/APA/NCME Standards** – Educational testing validity
+- **Webb's Alignment Methodology** – Standards alignment criteria
+- **Depth of Knowledge (DOK)** – Cognitive demand analysis
+- **Evidence-Centered Design** – Validity argument framework
+
+### Accessibility Standards
+- **WCAG 2.1 AA** – Web accessibility compliance
+- **Mathematical Accessibility** – LaTeX/MathML screen reader support
+- **Universal Design for Learning** – Multiple means of representation
+
+### Equity Frameworks
+- **Culturally Responsive Pedagogy** – Inclusive content development
+- **Differential Item Functioning** – Statistical fairness analysis
+- **Bias Detection** – Cultural and socioeconomic equity evaluation
+
+## 💾 Export Formats
 
 ### JSON
 Complete item bank with all metadata:
@@ -132,84 +268,94 @@ Question and Test Interoperability format for LMS integration.
 ### Moodle XML
 Format for importing into Moodle learning management system.
 
-## Configuration
+## 🎓 Educational Impact
 
-### Item Generation Options
+### For Teachers
+- **Time Savings** – Rapid generation of high-quality items
+- **Standards Alignment** – Guaranteed curriculum coverage
+- **Differentiation** – Items at multiple difficulty levels
+- **Assessment Design** – Professional-quality test creation
 
-```typescript
-const options = {
-  count: 5,                    // Number of items per standard
-  itemTypes: ['multiple_choice', 'short_answer'],
-  difficulties: ['developing', 'proficient'],
-  useAI: false                 // Enable AI-powered generation (future)
-};
-```
+### For Students
+- **Fair Assessment** – Bias-free, accessible evaluation
+- **Relevant Context** – Culturally responsive problems
+- **Clear Expectations** – Well-constructed, unambiguous items
+- **Learning Support** – Integrated hints and explanations
 
-### Filtering Options
+### For Administrators
+- **Quality Assurance** – Research-backed item validation
+- **Equity Compliance** – Documentation of fairness measures
+- **Data Integration** – Export to major assessment platforms
+- **Cost Efficiency** – Reduced dependence on publishers
 
-```typescript
-const filter = {
-  gradeLevels: ['9', '10'],
-  domains: ['Algebra', 'Geometry'],
-  difficulties: ['proficient'],
-  itemTypes: ['multiple_choice'],
-  keywords: ['equation', 'linear'],
-  calculatorAllowed: true,
-  maxTime: 10  // minutes
-};
-```
+## 🔧 Technical Stack
 
-## API Reference
+### Frontend
+- **Next.js 14** – React framework with App Router
+- **TypeScript** – Type safety and developer experience
+- **Tailwind CSS** – Utility-first styling
+- **Lucide React** – Modern icon library
 
-### ItemBankManager
+### AI/ML Integration
+- **Claude Code Skills** – Modular AI capabilities
+- **Natural Language Processing** – Content analysis and generation
+- **Statistical Analysis** – IRT and psychometric modeling
 
-Main class for managing the item bank:
+### Accessibility
+- **MathJax** – Mathematical notation rendering
+- **WCAG Compliance** – Screen reader and keyboard navigation
+- **Responsive Design** – Mobile and cross-platform compatibility
 
-- `initializeFromCSV(filePath)`: Load standards from CSV
-- `generateItemsForGrades(grades, options)`: Generate items for specific grades
-- `generateItemsForDomains(domains, options)`: Generate items for specific domains
-- `getFilteredItems(filter)`: Get items matching filter criteria
-- `getStatistics()`: Get item bank statistics
-- `addItem(item)`: Add custom item
-- `updateItem(id, updates)`: Update existing item
+## 🤝 Contributing
 
-### ExportManager
+We welcome contributions to enhance the Math Item Bank platform:
 
-Handle exports in various formats:
+### Development Areas
+- **AI Skills** – New evaluation and generation capabilities
+- **Standard Frameworks** – Additional state and international standards
+- **Item Types** – New interactive and adaptive formats
+- **Accessibility** – Enhanced support for diverse learners
+- **Research** – Validation studies and effectiveness metrics
 
-- `exportToJSON(itemBank, options)`: Export to JSON format
-- `exportToCSV(items, options)`: Export to CSV format
-- `exportToQTI(items, options)`: Export to QTI format
-- `exportToMoodleXML(items, options)`: Export to Moodle XML
-- `exportStandardsToCSV(standards)`: Export standards to CSV
-
-### StandardsParser
-
-Parse and organize standards:
-
-- `parseCSV(csvContent)`: Parse CSV content into standards
-- `groupByGrade(standards)`: Group standards by grade level
-- `groupByDomain(standards)`: Group standards by domain
-- `searchStandards(standards, query)`: Search standards by keywords
-
-## Contributing
-
+### Contribution Guidelines
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new functionality
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## License
+### Code Quality Standards
+- **TypeScript** – Strong typing for all components
+- **Testing** – Comprehensive test coverage
+- **Documentation** – Clear API documentation
+- **Accessibility** – WCAG compliance for all features
 
-MIT License - see LICENSE file for details.
+## 📄 License
 
-## Future Enhancements
+This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
 
-- 🤖 AI-powered item generation using GPT/Claude
-- 🌐 Web interface for browsing and managing items
-- 📊 Advanced analytics and reporting
-- 🔗 Integration with popular LMS platforms
-- 🎨 Rich media support (images, videos, interactive elements)
-- 📱 Mobile-responsive preview interface
-- 🔐 Role-based access and collaboration features
+## 🙏 Acknowledgments
+
+### Research Foundations
+- **AERA, APA, NCME** – Standards for Educational and Psychological Testing
+- **Norman Webb** – Alignment methodology and Depth of Knowledge framework
+- **James Pellegrino** – Evidence-centered design principles
+- **Gloria Ladson-Billings** – Culturally responsive pedagogy research
+
+### Open Source Inspiration
+- **OpenStax** – High-quality OER mathematics content
+- **Khan Academy** – Mathematical practice and assessment approaches
+- **Desmos** – Interactive mathematical visualization
+- **MathJax Consortium** – Mathematical accessibility standards
+
+## 📞 Contact & Support
+
+- **GitHub Issues** – [Report bugs and request features](https://github.com/JDerekLomas/MathItemBank/issues)
+- **Discussions** – [Community questions and ideas](https://github.com/JDerekLomas/MathItemBank/discussions)
+- **Documentation** – [Detailed guides and API reference](https://github.com/JDerekLomas/MathItemBank/wiki)
+
+---
+
+🎓 **Transforming Mathematics Assessment Through AI-Powered Excellence**
+
+Built with ❤️ for educators, students, and the mathematics education community.

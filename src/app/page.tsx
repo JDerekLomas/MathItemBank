@@ -1,60 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ChevronDown, ChevronRight, BookOpen, Target, BarChart3, Users, Search, Filter } from 'lucide-react';
+import { ChevronDown, ChevronRight, BookOpen, Target, BarChart3, Search, Filter } from 'lucide-react';
 import { ItemBankHierarchy, ItemBankOrganizer } from '@/lib/item-bank-organizer';
-import { MathStandard, MathItem, Subskill } from '@/types';
-
-interface GradeLevelData {
-  grade: string;
-  domains: DomainData[];
-  totalStandards: number;
-  totalItems: number;
-  totalSubskills: number;
-}
-
-interface DomainData {
-  domain: string;
-  clusters: ClusterData[];
-  totalStandards: number;
-  totalItems: number;
-  totalSubskills: number;
-}
-
-interface ClusterData {
-  cluster: string;
-  standards: StandardData[];
-  totalStandards: number;
-  totalItems: number;
-  totalSubskills: number;
-}
-
-interface StandardData {
-  standard: MathStandard;
-  subskills: SubskillData[];
-  items: ItemData[];
-  totalItems: number;
-  totalSubskills: number;
-  coveragePercentage: number;
-}
-
-interface SubskillData {
-  subskill: Subskill;
-  items: ItemData[];
-  itemCount: number;
-  difficultyDistribution: {
-    beginning: number;
-    developing: number;
-    proficient: number;
-    advanced: number;
-  };
-}
-
-interface ItemData {
-  item: MathItem;
-  subskillIds: string[];
-  standardsAlignment: string[];
-}
 
 export default function MathItemBankViewer() {
   const [hierarchy, setHierarchy] = useState<ItemBankHierarchy | null>(null);
@@ -80,7 +28,11 @@ export default function MathItemBankViewer() {
         throw new Error('Failed to load data');
       }
 
-      const data = await response.json();
+      const data = await response.json() as {
+        standards: any[];
+        items: any[];
+        subskills: any[];
+      };
       const organized = ItemBankOrganizer.organizeByGrade(
         data.standards,
         data.items,
@@ -251,7 +203,7 @@ export default function MathItemBankViewer() {
                 placeholder="Search standards, domains, clusters..."
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => setSearchTerm((e.target as HTMLInputElement).value)}
               />
             </div>
 

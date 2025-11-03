@@ -49,6 +49,7 @@ coverage/
 dist/
 build/
 out/
+.next/
 
 # Runtime data
 pids
@@ -63,3 +64,4 @@ temp/
 # Package manager lock files (keep one based on preference)
 # yarn.lock
 # package-lock.json
+.vercel

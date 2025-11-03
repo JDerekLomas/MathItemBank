@@ -1,4 +1,5 @@
 {
+  "name": "math-item-bank-viewer",
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
   "installCommand": "npm install",
