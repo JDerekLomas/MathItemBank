@@ -14,7 +14,9 @@
     "generate:enhanced": "ts-node src/examples/enhanced-sample-generation.ts",
     "claude:setup": "ts-node src/scripts/claude-setup.ts",
     "claude:test": "ts-node src/scripts/claude-test.ts",
-    "organize": "ts-node src/scripts/organize-data.ts"
+    "organize": "ts-node src/scripts/organize-data.ts",
+    "generate:grade6": "ts-node src/scripts/add-grade6-simple.ts",
+    "integrate:grade6": "ts-node src/scripts/integrate-grade6-standards.ts"
   },
   "keywords": [
     "math",
@@ -30,15 +32,19 @@
   "license": "MIT",
   "dependencies": {
     "autoprefixer": "^10.4.21",
+    "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.34.4",
     "lucide-react": "^0.294.0",
     "next": "^14.2.33",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwindcss": "^3.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "ts-fsrs": "^5.2.3"
   },
   "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
     "@types/jest": "^29.5.0",
     "@types/node": "^18.15.0",
     "@types/react": "^18.3.26",

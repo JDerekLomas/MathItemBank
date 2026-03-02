@@ -203,7 +203,7 @@ export default function MathItemBankViewer() {
                 placeholder="Search standards, domains, clusters..."
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm((e.target as HTMLInputElement).value)}
+                onChange={(e) => setSearchTerm(e.currentTarget.value)}
               />
             </div>
 
