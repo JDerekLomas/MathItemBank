@@ -3,21 +3,42 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
+const STEP_COLORS = [
+  { bg: 'bg-indigo-100', text: 'text-indigo-600', ring: 'ring-indigo-200' },
+  { bg: 'bg-violet-100', text: 'text-violet-600', ring: 'ring-violet-200' },
+  { bg: 'bg-emerald-100', text: 'text-emerald-600', ring: 'ring-emerald-200' },
+];
+
 export default function QuizLauncher() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-stone-50 to-white flex flex-col items-center justify-center px-6">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-violet-50/40 to-rose-50/30 flex flex-col items-center justify-center px-6 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 pointer-events-none">
+        <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="launcher-dots" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
+              <circle cx="2" cy="2" r="1" fill="rgba(99,102,241,0.06)" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#launcher-dots)" />
+        </svg>
+        <div className="absolute top-20 -right-20 w-64 h-64 rounded-full bg-indigo-200/20 blur-3xl" />
+        <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-violet-200/20 blur-3xl" />
+        <div className="absolute top-1/3 left-1/4 w-40 h-40 rounded-full bg-rose-200/15 blur-3xl" />
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="w-full max-w-md text-center"
+        className="w-full max-w-md text-center relative z-10"
       >
         {/* Icon */}
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.1, type: 'spring', stiffness: 200, damping: 15 }}
-          className="w-20 h-20 mx-auto mb-8 rounded-2xl bg-indigo-500 flex items-center justify-center shadow-lg shadow-indigo-500/25"
+          className="w-20 h-20 mx-auto mb-8 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/25"
         >
           <svg
             width="36"
@@ -51,7 +72,7 @@ export default function QuizLauncher() {
           transition={{ delay: 0.3 }}
           className="space-y-3 mb-10"
         >
-          <div className="p-4 rounded-xl border-2 border-indigo-100 bg-indigo-50/50 text-left">
+          <div className="p-4 rounded-xl border-2 border-indigo-200/60 bg-white/60 backdrop-blur-sm text-left shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <div className="font-semibold text-stone-900">Mixed Practice</div>
@@ -59,7 +80,7 @@ export default function QuizLauncher() {
                   Algebra, Geometry, Numbers
                 </div>
               </div>
-              <div className="text-xs font-medium text-indigo-500 px-2 py-1 rounded-full bg-indigo-100">
+              <div className="text-xs font-semibold text-indigo-600 px-3 py-1.5 rounded-full bg-indigo-100 border border-indigo-200/60">
                 7 Qs
               </div>
             </div>
@@ -78,10 +99,10 @@ export default function QuizLauncher() {
               whileTap={{ scale: 0.97 }}
               className="
                 w-full py-4 rounded-2xl
-                bg-indigo-500 text-white font-semibold text-lg
-                hover:bg-indigo-600
+                bg-gradient-to-r from-indigo-500 to-violet-600 text-white font-semibold text-lg
+                hover:from-indigo-600 hover:to-violet-700
                 shadow-lg shadow-indigo-500/25
-                transition-colors duration-150
+                transition-all duration-150
               "
             >
               Start Session
@@ -94,30 +115,29 @@ export default function QuizLauncher() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
-          className="mt-10 pt-8 border-t border-stone-100"
+          className="mt-10 pt-8 border-t border-stone-200/50"
         >
-          <h3 className="text-xs font-semibold text-stone-400 uppercase tracking-wider mb-4">
+          <h3 className="text-xs font-semibold text-stone-400 uppercase tracking-wider mb-5">
             How it works
           </h3>
           <div className="grid grid-cols-3 gap-4 text-center">
-            <div>
-              <div className="w-10 h-10 mx-auto mb-2 rounded-xl bg-stone-100 flex items-center justify-center text-lg">
-                1
-              </div>
-              <p className="text-xs text-stone-500">Pick an answer</p>
-            </div>
-            <div>
-              <div className="w-10 h-10 mx-auto mb-2 rounded-xl bg-stone-100 flex items-center justify-center text-lg">
-                2
-              </div>
-              <p className="text-xs text-stone-500">Rate your confidence</p>
-            </div>
-            <div>
-              <div className="w-10 h-10 mx-auto mb-2 rounded-xl bg-stone-100 flex items-center justify-center text-lg">
-                3
-              </div>
-              <p className="text-xs text-stone-500">Learn from feedback</p>
-            </div>
+            {[
+              { step: '1', label: 'Pick an answer' },
+              { step: '2', label: 'Rate your confidence' },
+              { step: '3', label: 'Learn from feedback' },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 + i * 0.1 }}
+              >
+                <div className={`w-11 h-11 mx-auto mb-2.5 rounded-xl ${STEP_COLORS[i].bg} ring-2 ${STEP_COLORS[i].ring} flex items-center justify-center text-lg font-bold ${STEP_COLORS[i].text}`}>
+                  {item.step}
+                </div>
+                <p className="text-xs text-stone-500 font-medium">{item.label}</p>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
       </motion.div>

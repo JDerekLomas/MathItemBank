@@ -28,10 +28,10 @@ export default function ConfidenceButtons({
             onClick={() => onSelect('think')}
             className="
               flex-1 py-3.5 px-6 rounded-xl
-              border-2 border-stone-200 bg-white
+              border-2 border-white/60 bg-white/70 backdrop-blur-sm
               text-stone-600 font-medium text-base
-              hover:border-stone-300 hover:bg-stone-50
-              transition-colors duration-150
+              hover:border-stone-300 hover:bg-white/90
+              shadow-sm transition-colors duration-150
             "
           >
             I think...
@@ -42,11 +42,11 @@ export default function ConfidenceButtons({
             onClick={() => onSelect('know')}
             className="
               flex-1 py-3.5 px-6 rounded-xl
-              border-2 border-indigo-500 bg-indigo-500
+              border-2 border-indigo-500 bg-gradient-to-r from-indigo-500 to-violet-600
               text-white font-semibold text-base
-              hover:bg-indigo-600 hover:border-indigo-600
+              hover:from-indigo-600 hover:to-violet-700
               shadow-md shadow-indigo-500/20
-              transition-colors duration-150
+              transition-all duration-150
             "
           >
             I know it.

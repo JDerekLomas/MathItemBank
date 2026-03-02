@@ -84,7 +84,7 @@ export default function FeedbackPanel({
             delay: feedbackType === 'confident-wrong' ? 0.5 : 0.15,
           }}
           className={`
-            mt-6 rounded-2xl border-2 p-5
+            mt-6 rounded-2xl border-2 p-5 backdrop-blur-sm shadow-sm
             ${config.bg} ${config.border}
           `}
         >

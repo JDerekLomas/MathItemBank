@@ -58,15 +58,22 @@ export default function SessionSummary({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
-      className="min-h-screen flex flex-col items-center justify-center px-6 bg-gradient-to-b from-stone-50 to-white"
+      className="min-h-screen flex flex-col items-center justify-center px-6 bg-gradient-to-br from-indigo-50 via-violet-50/40 to-emerald-50/30 relative overflow-hidden"
     >
-      <div className="w-full max-w-md">
+      {/* Background decoration */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-10 -right-20 w-60 h-60 rounded-full bg-indigo-200/20 blur-3xl" />
+        <div className="absolute -bottom-20 -left-10 w-72 h-72 rounded-full bg-emerald-200/20 blur-3xl" />
+        <div className="absolute top-1/2 right-1/4 w-40 h-40 rounded-full bg-violet-200/15 blur-3xl" />
+      </div>
+
+      <div className="w-full max-w-md relative z-10">
         {/* Score circle */}
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.2, type: 'spring', stiffness: 200, damping: 15 }}
-          className="mx-auto w-32 h-32 rounded-full bg-indigo-50 border-4 border-indigo-200 flex items-center justify-center mb-8"
+          className="mx-auto w-32 h-32 rounded-full bg-gradient-to-br from-indigo-100 to-violet-100 border-4 border-indigo-200/80 flex items-center justify-center mb-8 shadow-lg shadow-indigo-200/30"
         >
           <div className="text-center">
             <div className="text-3xl font-bold text-indigo-600">
@@ -83,8 +90,9 @@ export default function SessionSummary({
           transition={{ delay: 0.4 }}
           className="text-center mb-8"
         >
-          <div className="text-4xl font-bold text-amber-500 mb-1">
-            +{totalXP} XP
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-amber-50 border border-amber-200/60 mb-2">
+            <span className="text-3xl font-bold text-amber-500">+{totalXP}</span>
+            <span className="text-lg font-semibold text-amber-400">XP</span>
           </div>
           <div className="text-sm text-stone-400">earned this session</div>
         </motion.div>
@@ -105,8 +113,8 @@ export default function SessionSummary({
               <div
                 key={i}
                 className={`
-                  flex items-center gap-3 p-3 rounded-xl border
-                  ${q.isCorrect ? 'bg-emerald-50/50 border-emerald-100' : 'bg-red-50/30 border-red-100'}
+                  flex items-center gap-3 p-3 rounded-xl border backdrop-blur-sm
+                  ${q.isCorrect ? 'bg-emerald-50/60 border-emerald-200/60' : 'bg-red-50/50 border-red-200/50'}
                 `}
               >
                 <div
@@ -169,13 +177,13 @@ export default function SessionSummary({
         >
           <button
             onClick={onExit}
-            className="flex-1 py-3.5 rounded-xl border-2 border-stone-200 text-stone-600 font-medium hover:bg-stone-50 transition-colors"
+            className="flex-1 py-3.5 rounded-xl border-2 border-stone-200/60 bg-white/60 backdrop-blur-sm text-stone-600 font-medium hover:bg-white/80 transition-colors"
           >
             Done
           </button>
           <button
             onClick={onPlayAgain}
-            className="flex-1 py-3.5 rounded-xl bg-indigo-500 text-white font-semibold hover:bg-indigo-600 shadow-md shadow-indigo-500/20 transition-colors"
+            className="flex-1 py-3.5 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-600 text-white font-semibold hover:from-indigo-600 hover:to-violet-700 shadow-md shadow-indigo-500/20 transition-all"
           >
             Play Again
           </button>

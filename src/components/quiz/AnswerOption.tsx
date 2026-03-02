@@ -13,6 +13,8 @@ interface AnswerOptionProps {
   isCorrectAnswer: boolean;
   onSelect: (index: number) => void;
   disabled: boolean;
+  labelBg?: string;
+  labelText?: string;
 }
 
 const OPTION_LABELS = ['A', 'B', 'C', 'D'];
@@ -26,26 +28,28 @@ export default function AnswerOption({
   isCorrectAnswer,
   onSelect,
   disabled,
+  labelBg,
+  labelText,
 }: AnswerOptionProps) {
   const getCardStyle = () => {
     if (!showFeedback) {
       if (isSelected) {
-        return 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-500/30 shadow-md';
+        return 'border-indigo-500 bg-indigo-50/90 ring-2 ring-indigo-500/30 shadow-md backdrop-blur-sm';
       }
-      return 'border-stone-200 bg-white hover:border-stone-300 hover:shadow-md hover:scale-[1.02] active:scale-[0.98]';
+      return 'border-white/60 bg-white/70 backdrop-blur-sm hover:bg-white/90 hover:border-white/80 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] shadow-sm';
     }
 
     // Feedback states
     if (isSelected && isCorrectAnswer) {
-      return 'border-emerald-500 bg-emerald-50 ring-2 ring-emerald-500/30 shadow-md';
+      return 'border-emerald-500 bg-emerald-50/90 ring-2 ring-emerald-500/30 shadow-md backdrop-blur-sm';
     }
     if (isSelected && !isCorrectAnswer) {
-      return 'border-red-400 bg-red-50/60 ring-2 ring-red-400/20';
+      return 'border-red-400 bg-red-50/80 ring-2 ring-red-400/20 backdrop-blur-sm';
     }
     if (!isSelected && isCorrectAnswer) {
-      return 'border-emerald-500 bg-emerald-50 ring-2 ring-emerald-500/30 shadow-md';
+      return 'border-emerald-500 bg-emerald-50/90 ring-2 ring-emerald-500/30 shadow-md backdrop-blur-sm';
     }
-    return 'border-stone-100 bg-stone-50/50 opacity-50';
+    return 'border-white/30 bg-white/30 backdrop-blur-sm opacity-50';
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -96,7 +100,7 @@ export default function AnswerOption({
                   ? 'bg-red-400 text-white'
                   : isSelected
                     ? 'bg-indigo-500 text-white'
-                    : 'bg-stone-100 text-stone-500'
+                    : `${labelBg || 'bg-stone-100'} ${labelText || 'text-stone-500'}`
             }
           `}
         >

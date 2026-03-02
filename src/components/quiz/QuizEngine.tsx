@@ -10,6 +10,8 @@ import FeedbackPanel from './FeedbackPanel';
 import ProgressBar from './ProgressBar';
 import XPFloat from './XPFloat';
 import SessionSummary from './SessionSummary';
+import BackgroundPattern from './BackgroundPattern';
+import { getTheme } from './theme';
 import {
   QuizQuestion,
   Confidence,
@@ -151,6 +153,8 @@ export default function QuizEngine({
 
   if (!current) return null;
 
+  const theme = getTheme(currentIndex);
+
   // Find the misconception for feedback
   const selectedDistractorIndex =
     current.selectedIndex !== null && current.selectedIndex !== current.correctIndex
@@ -163,14 +167,16 @@ export default function QuizEngine({
       : undefined;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-stone-50 to-white flex flex-col">
+    <div className={`min-h-screen bg-gradient-to-br ${theme.bgFrom} ${theme.bgTo} flex flex-col relative transition-colors duration-700`}>
+      <BackgroundPattern dotColor={theme.dotColor} questionIndex={currentIndex} />
+
       {/* Header */}
-      <div className="px-6 pt-6 pb-4 relative">
+      <div className="px-6 pt-6 pb-4 relative z-10">
         <div className="max-w-lg mx-auto">
           <div className="flex items-center gap-3 mb-4">
             <button
               onClick={handleExit}
-              className="w-8 h-8 rounded-full flex items-center justify-center text-stone-400 hover:text-stone-600 hover:bg-stone-100 transition-colors"
+              className="w-8 h-8 rounded-full flex items-center justify-center text-stone-400 hover:text-stone-600 hover:bg-white/60 backdrop-blur-sm transition-colors"
             >
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <line x1="4" y1="4" x2="16" y2="16" />
@@ -182,6 +188,7 @@ export default function QuizEngine({
                 current={currentIndex + (showFeedback || current.phase === 'complete' ? 1 : 0)}
                 total={questions.length}
                 xp={xp}
+                accentColor={theme.progressColor}
               />
             </div>
           </div>
@@ -189,7 +196,7 @@ export default function QuizEngine({
       </div>
 
       {/* Question area */}
-      <div className="flex-1 flex flex-col px-6 pb-8">
+      <div className="flex-1 flex flex-col px-6 pb-8 relative z-10">
         <div className="max-w-lg mx-auto w-full flex-1 flex flex-col">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
@@ -204,9 +211,12 @@ export default function QuizEngine({
               }}
               className="flex-1 flex flex-col"
             >
-              {/* Question number */}
-              <div className="text-xs font-medium text-stone-400 uppercase tracking-wider mb-2">
-                Question {currentIndex + 1} of {questions.length}
+              {/* Question number badge */}
+              <div className="mb-3">
+                <span className={`inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full ${theme.badgeBg} ${theme.badgeText}`}>
+                  <span className="w-1.5 h-1.5 rounded-full bg-current opacity-60" />
+                  Question {currentIndex + 1} of {questions.length}
+                </span>
               </div>
 
               {/* Question stem */}
@@ -229,6 +239,8 @@ export default function QuizEngine({
                     isCorrectAnswer={i === current.correctIndex}
                     onSelect={handleSelect}
                     disabled={current.phase !== 'answering' && current.phase !== 'selected'}
+                    labelBg={theme.labelBg}
+                    labelText={theme.labelText}
                   />
                 ))}
               </div>
