@@ -60,8 +60,12 @@ export default function SessionSummary({
       transition={{ duration: 0.5, ease: 'easeOut' }}
       className="min-h-screen flex flex-col items-center justify-center px-6 bg-gradient-to-br from-indigo-50 via-violet-50/40 to-emerald-50/30 relative overflow-hidden"
     >
-      {/* Background decoration */}
+      {/* Background texture + decoration */}
       <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute inset-0 opacity-[0.35]"
+          style={{ backgroundImage: 'url(/textures/cream-dust.png)', backgroundRepeat: 'repeat' }}
+        />
         <div className="absolute top-10 -right-20 w-60 h-60 rounded-full bg-indigo-200/20 blur-3xl" />
         <div className="absolute -bottom-20 -left-10 w-72 h-72 rounded-full bg-emerald-200/20 blur-3xl" />
         <div className="absolute top-1/2 right-1/4 w-40 h-40 rounded-full bg-violet-200/15 blur-3xl" />

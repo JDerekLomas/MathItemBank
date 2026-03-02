@@ -2,15 +2,24 @@
 
 import { motion } from 'framer-motion';
 
+// Cycle through real textures per question
+const TEXTURES = [
+  '/textures/cream-dust.png',
+  '/textures/white-linen.png',
+  '/textures/tactile-noise-light.png',
+  '/textures/white-sand.png',
+  '/textures/subtle-dots.png',
+  '/textures/cream-dust.png',
+  '/textures/white-linen.png',
+];
+
 interface BackgroundPatternProps {
   dotColor: string;
   questionIndex: number;
 }
 
 export default function BackgroundPattern({ dotColor, questionIndex }: BackgroundPatternProps) {
-  // Alternate between dot grid and subtle cross-hatch per question
-  const patternId = `pattern-${questionIndex}`;
-  const isDots = questionIndex % 2 === 0;
+  const texture = TEXTURES[questionIndex % TEXTURES.length];
 
   return (
     <motion.div
@@ -20,44 +29,48 @@ export default function BackgroundPattern({ dotColor, questionIndex }: Backgroun
       transition={{ duration: 0.6 }}
       className="absolute inset-0 pointer-events-none overflow-hidden"
     >
-      <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          {isDots ? (
-            <pattern id={patternId} x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1.2" fill={dotColor} />
-            </pattern>
-          ) : (
-            <pattern id={patternId} x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-              <line x1="0" y1="10" x2="20" y2="10" stroke={dotColor} strokeWidth="0.8" />
-              <line x1="10" y1="0" x2="10" y2="20" stroke={dotColor} strokeWidth="0.8" />
-            </pattern>
-          )}
-        </defs>
-        <rect width="100%" height="100%" fill={`url(#${patternId})`} />
-      </svg>
-      {/* Decorative floating shapes */}
+      {/* Real PNG texture overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.35]"
+        style={{ backgroundImage: `url(${texture})`, backgroundRepeat: 'repeat' }}
+      />
+
+      {/* Decorative floating blobs */}
       <motion.div
-        className="absolute -top-10 -right-10 w-40 h-40 rounded-full opacity-30"
-        style={{ background: dotColor.replace(/[\d.]+\)$/, '0.15)') }}
+        className="absolute -top-10 -right-10 w-48 h-48 rounded-full"
+        style={{ background: dotColor.replace(/[\d.]+\)$/, '0.18)') }}
         animate={{
-          y: [0, -8, 0],
-          x: [0, 4, 0],
+          y: [0, -10, 0],
+          x: [0, 5, 0],
         }}
         transition={{
-          duration: 6,
+          duration: 7,
           repeat: Infinity,
           ease: 'easeInOut',
         }}
       />
       <motion.div
-        className="absolute -bottom-20 -left-10 w-56 h-56 rounded-full opacity-20"
-        style={{ background: dotColor.replace(/[\d.]+\)$/, '0.12)') }}
+        className="absolute -bottom-24 -left-12 w-64 h-64 rounded-full"
+        style={{ background: dotColor.replace(/[\d.]+\)$/, '0.14)') }}
         animate={{
-          y: [0, 6, 0],
-          x: [0, -3, 0],
+          y: [0, 8, 0],
+          x: [0, -4, 0],
         }}
         transition={{
-          duration: 8,
+          duration: 9,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
+      <motion.div
+        className="absolute top-1/3 -right-6 w-32 h-32 rounded-full"
+        style={{ background: dotColor.replace(/[\d.]+\)$/, '0.10)') }}
+        animate={{
+          y: [0, -6, 0],
+          scale: [1, 1.05, 1],
+        }}
+        transition={{
+          duration: 5,
           repeat: Infinity,
           ease: 'easeInOut',
         }}

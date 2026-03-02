@@ -12,16 +12,12 @@ const STEP_COLORS = [
 export default function QuizLauncher() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-violet-50/40 to-rose-50/30 flex flex-col items-center justify-center px-6 relative overflow-hidden">
-      {/* Background decoration */}
+      {/* Background texture + decoration */}
       <div className="absolute inset-0 pointer-events-none">
-        <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="launcher-dots" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1" fill="rgba(99,102,241,0.06)" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#launcher-dots)" />
-        </svg>
+        <div
+          className="absolute inset-0 opacity-[0.4]"
+          style={{ backgroundImage: 'url(/textures/white-linen.png)', backgroundRepeat: 'repeat' }}
+        />
         <div className="absolute top-20 -right-20 w-64 h-64 rounded-full bg-indigo-200/20 blur-3xl" />
         <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-violet-200/20 blur-3xl" />
         <div className="absolute top-1/3 left-1/4 w-40 h-40 rounded-full bg-rose-200/15 blur-3xl" />
