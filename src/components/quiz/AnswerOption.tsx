@@ -38,26 +38,26 @@ export default function AnswerOption({
       if (isSelected) {
         return `${theme.selectedBorder} ${theme.selectedBg} ring-2 ${theme.selectedRing} shadow-md`;
       }
-      if (isDark) {
-        return `${theme.cardBorder} ${theme.cardBg} ${theme.cardHoverBg} hover:shadow-md hover:scale-[1.02] active:scale-[0.98] shadow-sm`;
-      }
-      return `${theme.cardBorder} ${theme.cardBg} ${theme.cardHoverBg} hover:shadow-md hover:scale-[1.02] active:scale-[0.98] shadow-sm`;
+      return `${theme.cardBorder} ${theme.cardBg} ${theme.cardHoverBg} hover:shadow-md hover:scale-[1.02] active:scale-[0.98] ${theme.cardShadow}`;
     }
 
-    // Feedback states — same for both themes
-    if (isSelected && isCorrectAnswer) {
-      return 'border-emerald-500 bg-emerald-50/90 ring-2 ring-emerald-500/30 shadow-md';
+    // Feedback: correct answer highlight
+    if (isCorrectAnswer) {
+      return isDark
+        ? 'border-emerald-500 bg-emerald-900 ring-2 ring-emerald-500/30 shadow-md'
+        : 'border-emerald-500 bg-emerald-50 ring-2 ring-emerald-500/30 shadow-md';
     }
+    // Feedback: selected wrong answer
     if (isSelected && !isCorrectAnswer) {
-      return 'border-red-400 bg-red-50/80 ring-2 ring-red-400/20';
+      return isDark
+        ? 'border-red-400 bg-red-900 ring-2 ring-red-400/20'
+        : 'border-red-400 bg-red-50 ring-2 ring-red-400/20';
     }
-    if (!isSelected && isCorrectAnswer) {
-      return 'border-emerald-500 bg-emerald-50/90 ring-2 ring-emerald-500/30 shadow-md';
-    }
+    // Feedback: unselected non-correct (dim)
     if (isDark) {
-      return 'border-white/10 bg-white/5 opacity-40';
+      return `${theme.cardBorder} ${theme.cardBg} opacity-40`;
     }
-    return 'border-stone-100 bg-white/30 opacity-50';
+    return 'border-stone-100 bg-white opacity-50';
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -93,8 +93,8 @@ export default function AnswerOption({
   };
 
   const getTextStyle = () => {
-    if (showFeedback && isCorrectAnswer) return 'text-emerald-900 font-medium';
-    if (showFeedback && isSelected && !isCorrectAnswer) return 'text-red-800';
+    if (showFeedback && isCorrectAnswer) return isDark ? 'text-emerald-200 font-medium' : 'text-emerald-900 font-medium';
+    if (showFeedback && isSelected && !isCorrectAnswer) return isDark ? 'text-red-200' : 'text-red-800';
     if (isSelected) return `${theme.selectedText} font-medium`;
     return theme.cardText;
   };

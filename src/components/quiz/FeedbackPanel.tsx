@@ -13,65 +13,90 @@ interface FeedbackPanelProps {
   theme: QuizTheme;
 }
 
-const FEEDBACK_CONFIG: Record<
-  FeedbackType,
-  {
-    bg: string;
-    border: string;
-    icon: string;
-    title: string;
-    titleColor: string;
-    iconBg: string;
-    buttonBg: string;
-    buttonText: string;
-    explanationText: string;
-  }
-> = {
-  'confident-correct': {
-    bg: 'bg-emerald-50',
-    border: 'border-emerald-200',
-    icon: '✓',
-    title: 'Nailed it!',
-    titleColor: 'text-emerald-700',
-    iconBg: 'bg-emerald-500 text-white',
-    buttonBg: 'bg-emerald-500 hover:bg-emerald-600',
-    buttonText: 'text-white',
-    explanationText: 'text-stone-700',
-  },
-  'unsure-correct': {
-    bg: 'bg-teal-50',
-    border: 'border-teal-200',
-    icon: '~',
-    title: 'Correct — but worth reviewing',
-    titleColor: 'text-teal-700',
-    iconBg: 'bg-teal-500 text-white',
-    buttonBg: 'bg-teal-500 hover:bg-teal-600',
-    buttonText: 'text-white',
-    explanationText: 'text-stone-700',
-  },
-  'unsure-wrong': {
-    bg: 'bg-amber-50',
-    border: 'border-amber-200',
-    icon: '→',
-    title: "Here's what's going on",
-    titleColor: 'text-amber-800',
-    iconBg: 'bg-amber-500 text-white',
-    buttonBg: 'bg-amber-500 hover:bg-amber-600',
-    buttonText: 'text-white',
-    explanationText: 'text-stone-700',
-  },
-  'confident-wrong': {
-    bg: 'bg-red-50',
-    border: 'border-red-200',
-    icon: '!',
-    title: 'Misconception found',
-    titleColor: 'text-red-700',
-    iconBg: 'bg-red-500 text-white',
-    buttonBg: 'bg-red-500 hover:bg-red-600',
-    buttonText: 'text-white',
-    explanationText: 'text-stone-700',
-  },
-};
+interface FeedbackConfig {
+  bg: string;
+  border: string;
+  icon: string;
+  title: string;
+  titleColor: string;
+  iconBg: string;
+  buttonBg: string;
+  buttonText: string;
+  explanationText: string;
+  misconceptionBg: string;
+  misconceptionBorder: string;
+  misconceptionText: string;
+}
+
+function getFeedbackConfig(type: FeedbackType, isDark: boolean): FeedbackConfig {
+  const configs: Record<FeedbackType, { light: FeedbackConfig; dark: FeedbackConfig }> = {
+    'confident-correct': {
+      light: {
+        bg: 'bg-emerald-50', border: 'border-emerald-200', icon: '✓', title: 'Nailed it!',
+        titleColor: 'text-emerald-700', iconBg: 'bg-emerald-500 text-white',
+        buttonBg: 'bg-emerald-500 hover:bg-emerald-600', buttonText: 'text-white',
+        explanationText: 'text-stone-700',
+        misconceptionBg: '', misconceptionBorder: '', misconceptionText: '',
+      },
+      dark: {
+        bg: 'bg-emerald-950', border: 'border-emerald-700', icon: '✓', title: 'Nailed it!',
+        titleColor: 'text-emerald-300', iconBg: 'bg-emerald-500 text-white',
+        buttonBg: 'bg-emerald-500 hover:bg-emerald-600', buttonText: 'text-white',
+        explanationText: 'text-emerald-100/80',
+        misconceptionBg: '', misconceptionBorder: '', misconceptionText: '',
+      },
+    },
+    'unsure-correct': {
+      light: {
+        bg: 'bg-teal-50', border: 'border-teal-200', icon: '~', title: 'Correct — but worth reviewing',
+        titleColor: 'text-teal-700', iconBg: 'bg-teal-500 text-white',
+        buttonBg: 'bg-teal-500 hover:bg-teal-600', buttonText: 'text-white',
+        explanationText: 'text-stone-700',
+        misconceptionBg: '', misconceptionBorder: '', misconceptionText: '',
+      },
+      dark: {
+        bg: 'bg-teal-950', border: 'border-teal-700', icon: '~', title: 'Correct — but worth reviewing',
+        titleColor: 'text-teal-300', iconBg: 'bg-teal-500 text-white',
+        buttonBg: 'bg-teal-500 hover:bg-teal-600', buttonText: 'text-white',
+        explanationText: 'text-teal-100/80',
+        misconceptionBg: '', misconceptionBorder: '', misconceptionText: '',
+      },
+    },
+    'unsure-wrong': {
+      light: {
+        bg: 'bg-amber-50', border: 'border-amber-200', icon: '→', title: "Here's what's going on",
+        titleColor: 'text-amber-800', iconBg: 'bg-amber-500 text-white',
+        buttonBg: 'bg-amber-500 hover:bg-amber-600', buttonText: 'text-white',
+        explanationText: 'text-stone-700',
+        misconceptionBg: '', misconceptionBorder: '', misconceptionText: '',
+      },
+      dark: {
+        bg: 'bg-amber-950', border: 'border-amber-700', icon: '→', title: "Here's what's going on",
+        titleColor: 'text-amber-300', iconBg: 'bg-amber-500 text-white',
+        buttonBg: 'bg-amber-500 hover:bg-amber-600', buttonText: 'text-white',
+        explanationText: 'text-amber-100/80',
+        misconceptionBg: '', misconceptionBorder: '', misconceptionText: '',
+      },
+    },
+    'confident-wrong': {
+      light: {
+        bg: 'bg-red-50', border: 'border-red-200', icon: '!', title: 'Misconception found',
+        titleColor: 'text-red-700', iconBg: 'bg-red-500 text-white',
+        buttonBg: 'bg-red-500 hover:bg-red-600', buttonText: 'text-white',
+        explanationText: 'text-stone-700',
+        misconceptionBg: 'bg-red-100/60', misconceptionBorder: 'border-red-200/60', misconceptionText: 'text-red-800',
+      },
+      dark: {
+        bg: 'bg-red-950', border: 'border-red-700', icon: '!', title: 'Misconception found',
+        titleColor: 'text-red-300', iconBg: 'bg-red-500 text-white',
+        buttonBg: 'bg-red-500 hover:bg-red-600', buttonText: 'text-white',
+        explanationText: 'text-red-100/80',
+        misconceptionBg: 'bg-red-900/60', misconceptionBorder: 'border-red-700/60', misconceptionText: 'text-red-200',
+      },
+    },
+  };
+  return isDark ? configs[type].dark : configs[type].light;
+}
 
 export default function FeedbackPanel({
   visible,
@@ -79,9 +104,10 @@ export default function FeedbackPanel({
   explanation,
   misconception,
   onContinue,
+  theme,
 }: FeedbackPanelProps) {
   if (!feedbackType) return null;
-  const config = FEEDBACK_CONFIG[feedbackType];
+  const config = getFeedbackConfig(feedbackType, theme.mode === 'dark');
 
   return (
     <AnimatePresence>
@@ -121,9 +147,9 @@ export default function FeedbackPanel({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
-              className="mb-3 px-3 py-2 rounded-lg bg-red-100/60 border border-red-200/60"
+              className={`mb-3 px-3 py-2 rounded-lg ${config.misconceptionBg} border ${config.misconceptionBorder}`}
             >
-              <p className="text-sm text-red-800 font-medium">
+              <p className={`text-sm ${config.misconceptionText} font-medium`}>
                 Common trap: {misconception}
               </p>
             </motion.div>

@@ -3,8 +3,7 @@
 import { motion } from 'framer-motion';
 import { QuizQuestion, getFeedbackType } from './types';
 import { QuizTheme } from './theme';
-import MathDoodleBg from './MathDoodleBg';
-import PolkaDotBg from './PolkaDotBg';
+import DoodleBg from './DoodleBg';
 import confetti from 'canvas-confetti';
 import { useEffect } from 'react';
 
@@ -65,11 +64,7 @@ export default function SessionSummary({
       className={`min-h-screen flex flex-col items-center justify-center px-6 ${theme.summaryBg} relative overflow-hidden`}
     >
       {/* Background pattern */}
-      {theme.mode === 'dark' ? (
-        <MathDoodleBg color={theme.patternColor} opacity={theme.patternOpacity} />
-      ) : (
-        <PolkaDotBg color={theme.patternColor} opacity={theme.patternOpacity} />
-      )}
+      <DoodleBg src={theme.doodleBg} opacity={theme.doodleOpacity} />
 
       <div className="w-full max-w-md relative z-10">
         {/* Score circle */}
@@ -136,12 +131,12 @@ export default function SessionSummary({
                 </div>
                 <div className="flex-shrink-0">
                   {ft === 'confident-wrong' && (
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-600 font-medium">
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${theme.mode === 'dark' ? 'bg-red-900 text-red-300' : 'bg-red-100 text-red-600'}`}>
                       misconception
                     </span>
                   )}
                   {ft === 'unsure-correct' && (
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-teal-100 text-teal-600 font-medium">
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${theme.mode === 'dark' ? 'bg-teal-900 text-teal-300' : 'bg-teal-100 text-teal-600'}`}>
                       lucky
                     </span>
                   )}
