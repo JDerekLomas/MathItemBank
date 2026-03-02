@@ -2,15 +2,18 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { Confidence } from './types';
+import { QuizTheme } from './theme';
 
 interface ConfidenceButtonsProps {
   visible: boolean;
   onSelect: (confidence: Confidence) => void;
+  theme: QuizTheme;
 }
 
 export default function ConfidenceButtons({
   visible,
   onSelect,
+  theme,
 }: ConfidenceButtonsProps) {
   return (
     <AnimatePresence>
@@ -26,13 +29,12 @@ export default function ConfidenceButtons({
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={() => onSelect('think')}
-            className="
+            className={`
               flex-1 py-3.5 px-6 rounded-xl
-              border-2 border-white/60 bg-white/70 backdrop-blur-sm
-              text-stone-600 font-medium text-base
-              hover:border-stone-300 hover:bg-white/90
+              border-2 ${theme.thinkBorder} ${theme.thinkBg}
+              ${theme.thinkText} font-medium text-base
               shadow-sm transition-colors duration-150
-            "
+            `}
           >
             I think...
           </motion.button>
@@ -40,14 +42,12 @@ export default function ConfidenceButtons({
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={() => onSelect('know')}
-            className="
+            className={`
               flex-1 py-3.5 px-6 rounded-xl
-              border-2 border-indigo-500 bg-gradient-to-r from-indigo-500 to-violet-600
-              text-white font-semibold text-base
-              hover:from-indigo-600 hover:to-violet-700
-              shadow-md shadow-indigo-500/20
-              transition-all duration-150
-            "
+              border-2 ${theme.knowBorder} ${theme.knowBg}
+              ${theme.knowText} font-semibold text-base
+              shadow-md transition-all duration-150
+            `}
           >
             I know it.
           </motion.button>

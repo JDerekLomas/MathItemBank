@@ -1,13 +1,15 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
+import { QuizTheme } from './theme';
 
 interface XPFloatProps {
   amount: number;
   visible: boolean;
+  theme: QuizTheme;
 }
 
-export default function XPFloat({ amount, visible }: XPFloatProps) {
+export default function XPFloat({ amount, visible, theme }: XPFloatProps) {
   return (
     <AnimatePresence>
       {visible && (
@@ -18,7 +20,7 @@ export default function XPFloat({ amount, visible }: XPFloatProps) {
           transition={{ duration: 0.8, ease: 'easeOut' }}
           className="absolute top-0 right-4 pointer-events-none z-50"
         >
-          <span className="text-lg font-bold text-amber-500 drop-shadow-sm">
+          <span className={`text-lg font-bold ${theme.xpText} drop-shadow-sm`}>
             +{amount} XP
           </span>
         </motion.div>

@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { FeedbackType } from './types';
+import { QuizTheme } from './theme';
 
 interface FeedbackPanelProps {
   visible: boolean;
@@ -9,6 +10,7 @@ interface FeedbackPanelProps {
   explanation: string;
   misconception?: string | undefined;
   onContinue: () => void;
+  theme: QuizTheme;
 }
 
 const FEEDBACK_CONFIG: Record<
@@ -19,8 +21,10 @@ const FEEDBACK_CONFIG: Record<
     icon: string;
     title: string;
     titleColor: string;
+    iconBg: string;
     buttonBg: string;
     buttonText: string;
+    explanationText: string;
   }
 > = {
   'confident-correct': {
@@ -29,8 +33,10 @@ const FEEDBACK_CONFIG: Record<
     icon: '✓',
     title: 'Nailed it!',
     titleColor: 'text-emerald-700',
+    iconBg: 'bg-emerald-500 text-white',
     buttonBg: 'bg-emerald-500 hover:bg-emerald-600',
     buttonText: 'text-white',
+    explanationText: 'text-stone-700',
   },
   'unsure-correct': {
     bg: 'bg-teal-50',
@@ -38,8 +44,10 @@ const FEEDBACK_CONFIG: Record<
     icon: '~',
     title: 'Correct — but worth reviewing',
     titleColor: 'text-teal-700',
+    iconBg: 'bg-teal-500 text-white',
     buttonBg: 'bg-teal-500 hover:bg-teal-600',
     buttonText: 'text-white',
+    explanationText: 'text-stone-700',
   },
   'unsure-wrong': {
     bg: 'bg-amber-50',
@@ -47,8 +55,10 @@ const FEEDBACK_CONFIG: Record<
     icon: '→',
     title: "Here's what's going on",
     titleColor: 'text-amber-800',
+    iconBg: 'bg-amber-500 text-white',
     buttonBg: 'bg-amber-500 hover:bg-amber-600',
     buttonText: 'text-white',
+    explanationText: 'text-stone-700',
   },
   'confident-wrong': {
     bg: 'bg-red-50',
@@ -56,8 +66,10 @@ const FEEDBACK_CONFIG: Record<
     icon: '!',
     title: 'Misconception found',
     titleColor: 'text-red-700',
+    iconBg: 'bg-red-500 text-white',
     buttonBg: 'bg-red-500 hover:bg-red-600',
     buttonText: 'text-white',
+    explanationText: 'text-stone-700',
   },
 };
 
@@ -84,7 +96,7 @@ export default function FeedbackPanel({
             delay: feedbackType === 'confident-wrong' ? 0.5 : 0.15,
           }}
           className={`
-            mt-6 rounded-2xl border-2 p-5 backdrop-blur-sm shadow-sm
+            mt-6 rounded-2xl border-2 p-5 shadow-sm
             ${config.bg} ${config.border}
           `}
         >
@@ -92,11 +104,7 @@ export default function FeedbackPanel({
             <div
               className={`
               flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center
-              text-sm font-bold
-              ${feedbackType === 'confident-correct' ? 'bg-emerald-500 text-white' : ''}
-              ${feedbackType === 'unsure-correct' ? 'bg-teal-500 text-white' : ''}
-              ${feedbackType === 'unsure-wrong' ? 'bg-amber-500 text-white' : ''}
-              ${feedbackType === 'confident-wrong' ? 'bg-red-500 text-white' : ''}
+              text-sm font-bold ${config.iconBg}
             `}
             >
               {config.icon}
@@ -121,7 +129,7 @@ export default function FeedbackPanel({
             </motion.div>
           )}
 
-          <p className="text-sm text-stone-700 leading-relaxed mb-4">
+          <p className={`text-sm ${config.explanationText} leading-relaxed mb-4`}>
             {explanation}
           </p>
 

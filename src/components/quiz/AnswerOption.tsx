@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { FeedbackType } from './types';
+import { QuizTheme } from './theme';
 
 interface AnswerOptionProps {
   text: string;
@@ -13,8 +14,7 @@ interface AnswerOptionProps {
   isCorrectAnswer: boolean;
   onSelect: (index: number) => void;
   disabled: boolean;
-  labelBg?: string;
-  labelText?: string;
+  theme: QuizTheme;
 }
 
 const OPTION_LABELS = ['A', 'B', 'C', 'D'];
@@ -28,28 +28,36 @@ export default function AnswerOption({
   isCorrectAnswer,
   onSelect,
   disabled,
-  labelBg,
-  labelText,
+  theme,
 }: AnswerOptionProps) {
+  const isDark = theme.mode === 'dark';
+  const answerColor = theme.answerColors[index % theme.answerColors.length];
+
   const getCardStyle = () => {
     if (!showFeedback) {
       if (isSelected) {
-        return 'border-indigo-500 bg-indigo-50/90 ring-2 ring-indigo-500/30 shadow-md backdrop-blur-sm';
+        return `${theme.selectedBorder} ${theme.selectedBg} ring-2 ${theme.selectedRing} shadow-md`;
       }
-      return 'border-white/60 bg-white/70 backdrop-blur-sm hover:bg-white/90 hover:border-white/80 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] shadow-sm';
+      if (isDark) {
+        return `${theme.cardBorder} ${theme.cardBg} ${theme.cardHoverBg} hover:shadow-md hover:scale-[1.02] active:scale-[0.98] shadow-sm`;
+      }
+      return `${theme.cardBorder} ${theme.cardBg} ${theme.cardHoverBg} hover:shadow-md hover:scale-[1.02] active:scale-[0.98] shadow-sm`;
     }
 
-    // Feedback states
+    // Feedback states — same for both themes
     if (isSelected && isCorrectAnswer) {
-      return 'border-emerald-500 bg-emerald-50/90 ring-2 ring-emerald-500/30 shadow-md backdrop-blur-sm';
+      return 'border-emerald-500 bg-emerald-50/90 ring-2 ring-emerald-500/30 shadow-md';
     }
     if (isSelected && !isCorrectAnswer) {
-      return 'border-red-400 bg-red-50/80 ring-2 ring-red-400/20 backdrop-blur-sm';
+      return 'border-red-400 bg-red-50/80 ring-2 ring-red-400/20';
     }
     if (!isSelected && isCorrectAnswer) {
-      return 'border-emerald-500 bg-emerald-50/90 ring-2 ring-emerald-500/30 shadow-md backdrop-blur-sm';
+      return 'border-emerald-500 bg-emerald-50/90 ring-2 ring-emerald-500/30 shadow-md';
     }
-    return 'border-white/30 bg-white/30 backdrop-blur-sm opacity-50';
+    if (isDark) {
+      return 'border-white/10 bg-white/5 opacity-40';
+    }
+    return 'border-stone-100 bg-white/30 opacity-50';
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -74,6 +82,23 @@ export default function AnswerOption({
     return {};
   };
 
+  const getLabelStyle = () => {
+    if (showFeedback && isCorrectAnswer) return 'bg-emerald-500 text-white';
+    if (showFeedback && isSelected && !isCorrectAnswer) return 'bg-red-400 text-white';
+    if (isSelected) {
+      return isDark ? 'bg-white text-indigo-600' : 'bg-indigo-500 text-white';
+    }
+    // Default: use per-answer theme colors
+    return `${answerColor.bg} ${answerColor.text}`;
+  };
+
+  const getTextStyle = () => {
+    if (showFeedback && isCorrectAnswer) return 'text-emerald-900 font-medium';
+    if (showFeedback && isSelected && !isCorrectAnswer) return 'text-red-800';
+    if (isSelected) return `${theme.selectedText} font-medium`;
+    return theme.cardText;
+  };
+
   return (
     <motion.button
       layout
@@ -93,15 +118,7 @@ export default function AnswerOption({
         <span
           className={`
             flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-semibold
-            ${
-              showFeedback && isCorrectAnswer
-                ? 'bg-emerald-500 text-white'
-                : showFeedback && isSelected && !isCorrectAnswer
-                  ? 'bg-red-400 text-white'
-                  : isSelected
-                    ? 'bg-indigo-500 text-white'
-                    : `${labelBg || 'bg-stone-100'} ${labelText || 'text-stone-500'}`
-            }
+            ${getLabelStyle()}
           `}
         >
           {showFeedback && isCorrectAnswer ? (
@@ -112,20 +129,7 @@ export default function AnswerOption({
             OPTION_LABELS[index]
           )}
         </span>
-        <span
-          className={`
-            text-base leading-relaxed pt-0.5
-            ${
-              showFeedback && isCorrectAnswer
-                ? 'text-emerald-900 font-medium'
-                : showFeedback && isSelected && !isCorrectAnswer
-                  ? 'text-red-800'
-                  : isSelected
-                    ? 'text-indigo-900 font-medium'
-                    : 'text-stone-700'
-            }
-          `}
-        >
+        <span className={`text-base leading-relaxed pt-0.5 ${getTextStyle()}`}>
           {text}
         </span>
       </div>

@@ -2,6 +2,9 @@
 
 import { motion } from 'framer-motion';
 import { QuizQuestion, getFeedbackType } from './types';
+import { QuizTheme } from './theme';
+import MathDoodleBg from './MathDoodleBg';
+import PolkaDotBg from './PolkaDotBg';
 import confetti from 'canvas-confetti';
 import { useEffect } from 'react';
 
@@ -10,6 +13,7 @@ interface SessionSummaryProps {
   totalXP: number;
   onPlayAgain: () => void;
   onExit: () => void;
+  theme: QuizTheme;
 }
 
 export default function SessionSummary({
@@ -17,6 +21,7 @@ export default function SessionSummary({
   totalXP,
   onPlayAgain,
   onExit,
+  theme,
 }: SessionSummaryProps) {
   const correct = questions.filter((q) => q.isCorrect).length;
   const total = questions.length;
@@ -24,10 +29,9 @@ export default function SessionSummary({
     (q) =>
       q.confidence === 'know' && q.isCorrect === false
   ).length;
-  const misconceptionsCleared = confidentWrong; // In v0.2, track which ones were re-tested
+  const misconceptionsCleared = confidentWrong;
 
   useEffect(() => {
-    // Fire confetti on mount
     const end = Date.now() + 1500;
     const colors = ['#4F46E5', '#22C55E', '#F59E0B', '#EC4899'];
 
@@ -58,18 +62,14 @@ export default function SessionSummary({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
-      className="min-h-screen flex flex-col items-center justify-center px-6 bg-gradient-to-br from-indigo-50 via-violet-50/40 to-emerald-50/30 relative overflow-hidden"
+      className={`min-h-screen flex flex-col items-center justify-center px-6 ${theme.summaryBg} relative overflow-hidden`}
     >
-      {/* Background texture + decoration */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute inset-0 opacity-[0.35]"
-          style={{ backgroundImage: 'url(/textures/cream-dust.png)', backgroundRepeat: 'repeat' }}
-        />
-        <div className="absolute top-10 -right-20 w-60 h-60 rounded-full bg-indigo-200/20 blur-3xl" />
-        <div className="absolute -bottom-20 -left-10 w-72 h-72 rounded-full bg-emerald-200/20 blur-3xl" />
-        <div className="absolute top-1/2 right-1/4 w-40 h-40 rounded-full bg-violet-200/15 blur-3xl" />
-      </div>
+      {/* Background pattern */}
+      {theme.mode === 'dark' ? (
+        <MathDoodleBg color={theme.patternColor} opacity={theme.patternOpacity} />
+      ) : (
+        <PolkaDotBg color={theme.patternColor} opacity={theme.patternOpacity} />
+      )}
 
       <div className="w-full max-w-md relative z-10">
         {/* Score circle */}
@@ -77,13 +77,13 @@ export default function SessionSummary({
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.2, type: 'spring', stiffness: 200, damping: 15 }}
-          className="mx-auto w-32 h-32 rounded-full bg-gradient-to-br from-indigo-100 to-violet-100 border-4 border-indigo-200/80 flex items-center justify-center mb-8 shadow-lg shadow-indigo-200/30"
+          className={`mx-auto w-32 h-32 rounded-full ${theme.scoreBg} border-4 ${theme.scoreBorder} flex items-center justify-center mb-8 shadow-lg`}
         >
           <div className="text-center">
-            <div className="text-3xl font-bold text-indigo-600">
+            <div className={`text-3xl font-bold ${theme.scoreText}`}>
               {correct}/{total}
             </div>
-            <div className="text-xs text-indigo-400 font-medium">correct</div>
+            <div className={`text-xs ${theme.scoreLabel} font-medium`}>correct</div>
           </div>
         </motion.div>
 
@@ -94,11 +94,11 @@ export default function SessionSummary({
           transition={{ delay: 0.4 }}
           className="text-center mb-8"
         >
-          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-amber-50 border border-amber-200/60 mb-2">
-            <span className="text-3xl font-bold text-amber-500">+{totalXP}</span>
-            <span className="text-lg font-semibold text-amber-400">XP</span>
+          <div className={`inline-flex items-center gap-2 px-5 py-2 rounded-full ${theme.xpBg} mb-2`}>
+            <span className={`text-3xl font-bold ${theme.xpText}`}>+{totalXP}</span>
+            <span className={`text-lg font-semibold ${theme.xpLabel}`}>XP</span>
           </div>
-          <div className="text-sm text-stone-400">earned this session</div>
+          <div className={`text-sm ${theme.questionSubtext}`}>earned this session</div>
         </motion.div>
 
         {/* Stats */}
@@ -117,8 +117,8 @@ export default function SessionSummary({
               <div
                 key={i}
                 className={`
-                  flex items-center gap-3 p-3 rounded-xl border backdrop-blur-sm
-                  ${q.isCorrect ? 'bg-emerald-50/60 border-emerald-200/60' : 'bg-red-50/50 border-red-200/50'}
+                  flex items-center gap-3 p-3 rounded-xl border
+                  ${q.isCorrect ? `${theme.cardCorrectBg} ${theme.cardCorrectBorder}` : `${theme.cardWrongBg} ${theme.cardWrongBorder}`}
                 `}
               >
                 <div
@@ -130,7 +130,7 @@ export default function SessionSummary({
                   {q.isCorrect ? '✓' : '✗'}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-stone-700 truncate">
+                  <p className={`text-sm font-medium ${theme.questionText} truncate`}>
                     {q.item.question}
                   </p>
                 </div>
@@ -146,7 +146,7 @@ export default function SessionSummary({
                     </span>
                   )}
                   {q.confidence && (
-                    <span className="text-xs text-stone-400 ml-2">
+                    <span className={`text-xs ${theme.questionSubtext} ml-2`}>
                       {q.confidence === 'know' ? 'sure' : 'unsure'}
                     </span>
                   )}
@@ -162,9 +162,9 @@ export default function SessionSummary({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="mb-8 p-4 rounded-xl bg-indigo-50 border border-indigo-100 text-center"
+            className={`mb-8 p-4 rounded-xl ${theme.scoreBg} border ${theme.scoreBorder} text-center`}
           >
-            <p className="text-sm text-indigo-700 font-medium">
+            <p className={`text-sm ${theme.scoreText} font-medium`}>
               You discovered {misconceptionsCleared} misconception
               {misconceptionsCleared > 1 ? 's' : ''} — these will come back in
               a future session so you can clear them.
@@ -181,13 +181,13 @@ export default function SessionSummary({
         >
           <button
             onClick={onExit}
-            className="flex-1 py-3.5 rounded-xl border-2 border-stone-200/60 bg-white/60 backdrop-blur-sm text-stone-600 font-medium hover:bg-white/80 transition-colors"
+            className={`flex-1 py-3.5 rounded-xl border-2 ${theme.btnSecondaryBorder} ${theme.btnSecondaryBg} ${theme.btnSecondaryText} font-medium hover:opacity-80 transition-colors`}
           >
             Done
           </button>
           <button
             onClick={onPlayAgain}
-            className="flex-1 py-3.5 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-600 text-white font-semibold hover:from-indigo-600 hover:to-violet-700 shadow-md shadow-indigo-500/20 transition-all"
+            className={`flex-1 py-3.5 rounded-xl ${theme.btnPrimaryBg} ${theme.btnPrimaryText} font-semibold shadow-md transition-all`}
           >
             Play Again
           </button>

@@ -10,8 +10,9 @@ import FeedbackPanel from './FeedbackPanel';
 import ProgressBar from './ProgressBar';
 import XPFloat from './XPFloat';
 import SessionSummary from './SessionSummary';
-import BackgroundPattern from './BackgroundPattern';
-import { getTheme } from './theme';
+import MathDoodleBg from './MathDoodleBg';
+import PolkaDotBg from './PolkaDotBg';
+import { getThemeByMode, ThemeMode } from './theme';
 import {
   QuizQuestion,
   Confidence,
@@ -23,6 +24,7 @@ import { buildQuizOptions, shuffleArray } from './sample-questions';
 interface QuizEngineProps {
   items: MathItem[];
   sessionSize?: number;
+  themeMode?: ThemeMode;
 }
 
 type EngineState = 'playing' | 'summary';
@@ -30,6 +32,7 @@ type EngineState = 'playing' | 'summary';
 export default function QuizEngine({
   items,
   sessionSize = 7,
+  themeMode = 'dark',
 }: QuizEngineProps) {
   const [engineState, setEngineState] = useState<EngineState>('playing');
   const [questions, setQuestions] = useState<QuizQuestion[]>(() =>
@@ -39,9 +42,10 @@ export default function QuizEngine({
   const [xp, setXP] = useState(0);
   const [showXPFloat, setShowXPFloat] = useState(false);
   const [xpFloatAmount, setXPFloatAmount] = useState(0);
-  const [direction, setDirection] = useState(1); // 1 = forward
+  const [direction, setDirection] = useState(1);
   const questionStartTime = useRef(Date.now());
 
+  const theme = getThemeByMode(themeMode);
   const current = questions[currentIndex];
   const hasSelected = current?.selectedIndex !== null;
   const showConfidence = hasSelected && current?.confidence === null;
@@ -74,13 +78,11 @@ export default function QuizEngine({
       const earnedXP = getXPForFeedback(ft);
       const timeSpent = Date.now() - questionStartTime.current;
 
-      // Trigger XP float
       setXPFloatAmount(earnedXP);
       setShowXPFloat(true);
       setTimeout(() => setShowXPFloat(false), 900);
       setXP((prev) => prev + earnedXP);
 
-      // Play sound-like feedback via confetti for correct
       if (isCorrect && confidence === 'know') {
         confetti({
           particleCount: 40,
@@ -147,15 +149,13 @@ export default function QuizEngine({
         totalXP={xp}
         onPlayAgain={handlePlayAgain}
         onExit={handleExit}
+        theme={theme}
       />
     );
   }
 
   if (!current) return null;
 
-  const theme = getTheme(currentIndex);
-
-  // Find the misconception for feedback
   const selectedDistractorIndex =
     current.selectedIndex !== null && current.selectedIndex !== current.correctIndex
       ? current.selectedIndex
@@ -167,8 +167,13 @@ export default function QuizEngine({
       : undefined;
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br ${theme.bgFrom} ${theme.bgTo} flex flex-col relative transition-colors duration-700`}>
-      <BackgroundPattern dotColor={theme.dotColor} questionIndex={currentIndex} />
+    <div className={`min-h-screen ${theme.pageBg} flex flex-col relative transition-colors duration-700`}>
+      {/* Background pattern — dark gets math doodles, light gets polka dots */}
+      {theme.mode === 'dark' ? (
+        <MathDoodleBg color={theme.patternColor} opacity={theme.patternOpacity} />
+      ) : (
+        <PolkaDotBg color={theme.patternColor} opacity={theme.patternOpacity} />
+      )}
 
       {/* Header */}
       <div className="px-6 pt-6 pb-4 relative z-10">
@@ -176,7 +181,7 @@ export default function QuizEngine({
           <div className="flex items-center gap-3 mb-4">
             <button
               onClick={handleExit}
-              className="w-8 h-8 rounded-full flex items-center justify-center text-stone-400 hover:text-stone-600 hover:bg-white/60 backdrop-blur-sm transition-colors"
+              className={`w-8 h-8 rounded-full flex items-center justify-center ${theme.closeBtnText} ${theme.closeBtnHover} transition-colors`}
             >
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <line x1="4" y1="4" x2="16" y2="16" />
@@ -188,7 +193,7 @@ export default function QuizEngine({
                 current={currentIndex + (showFeedback || current.phase === 'complete' ? 1 : 0)}
                 total={questions.length}
                 xp={xp}
-                accentColor={theme.progressColor}
+                theme={theme}
               />
             </div>
           </div>
@@ -220,13 +225,13 @@ export default function QuizEngine({
               </div>
 
               {/* Question stem */}
-              <h2 className="text-xl font-semibold text-stone-900 leading-relaxed mb-8">
+              <h2 className={`text-xl font-semibold ${theme.questionText} leading-relaxed mb-8`}>
                 {current.item.question}
               </h2>
 
               {/* Answer options */}
               <div className="space-y-3 relative">
-                <XPFloat amount={xpFloatAmount} visible={showXPFloat} />
+                <XPFloat amount={xpFloatAmount} visible={showXPFloat} theme={theme} />
                 {current.options.map((option, i) => (
                   <AnswerOption
                     key={i}
@@ -239,8 +244,7 @@ export default function QuizEngine({
                     isCorrectAnswer={i === current.correctIndex}
                     onSelect={handleSelect}
                     disabled={current.phase !== 'answering' && current.phase !== 'selected'}
-                    labelBg={theme.labelBg}
-                    labelText={theme.labelText}
+                    theme={theme}
                   />
                 ))}
               </div>
@@ -249,6 +253,7 @@ export default function QuizEngine({
               <ConfidenceButtons
                 visible={showConfidence}
                 onSelect={handleConfidence}
+                theme={theme}
               />
 
               {/* Feedback panel */}
@@ -258,6 +263,7 @@ export default function QuizEngine({
                 explanation={current.item.explanation}
                 misconception={misconception}
                 onContinue={handleContinue}
+                theme={theme}
               />
 
               {/* Auto-continue for confident-correct */}
@@ -272,7 +278,6 @@ export default function QuizEngine({
   );
 }
 
-// Auto-advance for confident+correct (quick flow)
 function AutoContinue({
   onContinue,
   delay,
