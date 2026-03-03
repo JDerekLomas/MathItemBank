@@ -1,6 +1,6 @@
 # Quiz Engine Architecture
 
-Confidence-weighted MCQ system with gamified feedback. The core insight: **what students think they know matters as much as what they actually know.** Four feedback states emerge from the 2x2 matrix of correctness × confidence.
+Confidence-weighted quiz system with gamified feedback. Domain-agnostic — currently focused on vibe coding, extensible to any subject. See `QUIZ-EXPERIENCE-DESIGN.md` in the project root for the full pedagogy.
 
 ## The 2x2 Confidence Matrix
 
@@ -9,7 +9,7 @@ Confidence-weighted MCQ system with gamified feedback. The core insight: **what 
 | **"I know it"** | Confident-correct (+15 XP, confetti, auto-advance) | Confident-wrong (+5 XP, misconception flagged, shake animation) |
 | **"I think so"** | Unsure-correct (+10 XP, "worth reviewing") | Unsure-wrong (+3 XP, gentle teaching moment) |
 
-Every answer earns XP. The system rewards honest self-assessment — admitting uncertainty when wrong earns less than being confidently wrong, but the pedagogical value is captured either way.
+Every answer earns XP. The system rewards honest self-assessment.
 
 ## Flow
 
@@ -29,7 +29,7 @@ After all questions: Session Summary with per-question results, total XP, miscon
 - Manages state machine: `answering → selected → feedback → complete`
 - Tracks `QuizQuestion[]` with phases, confidence, correctness
 - Handles XP calculation, confetti triggers, auto-continue for confident-correct
-- Accepts `themeMode` prop (`'dark' | 'light'`)
+- Accepts `items: QuizItem[]`, `sessionSize`, `themeMode` props
 - Renders DoodleBg, ProgressBar, AnswerOptions, ConfidenceButtons, FeedbackPanel
 
 ### AnswerOption.tsx
@@ -44,7 +44,7 @@ After all questions: Session Summary with per-question results, total XP, miscon
 - Slide-up animation via Framer Motion
 
 ### FeedbackPanel.tsx
-- Dark-mode-aware feedback cards with 4 distinct color schemes (emerald/teal/amber/red)
+- Theme-aware feedback cards with 4 distinct color schemes (emerald/teal/amber/red)
 - Shows explanation text, misconception callout for confident-wrong
 - "Got it" / "Next" button to advance
 
@@ -62,7 +62,7 @@ After all questions: Session Summary with per-question results, total XP, miscon
 
 ### DoodleBg.tsx
 - Renders an AI-generated PNG as a CSS background (cover or tile)
-- `src`, `opacity`, `tile` props — used by both QuizEngine and SessionSummary
+- `src`, `opacity`, `tile` props — used by QuizEngine, SessionSummary, and launcher
 
 ## Theme System (theme.ts)
 
@@ -74,18 +74,34 @@ Two visual modes, fully defined in `QuizTheme` interface:
 
 Key design principle: **cards are fully opaque** — no glass-morphism or transparency. Doodle backgrounds show through gaps between cards, not through them.
 
-Theme properties: `pageBg`, `doodleBg` (PNG path), `doodleOpacity`, `cardBg`, `cardBorder`, `cardShadow`, `answerColors[]`, `selectedBg/Border/Ring`, progress/XP/confidence/feedback/summary colors.
+Theme properties: `pageBg`, `doodleBg` (PNG path), `doodleOpacity`, `doodleTile`, `cardBg`, `cardBorder`, `cardShadow`, `answerColors[]`, `selectedBg/Border/Ring`, progress/XP/confidence/feedback/summary colors.
 
 ## Data Model (types.ts)
 
 ```typescript
+// Domain-agnostic quiz item
+interface QuizItem {
+  id: string;
+  domain: string;
+  tags: string[];
+  difficulty: 'foundational' | 'intermediate' | 'advanced';
+  title: string;
+  question: string;
+  correctAnswer: string;
+  distractors: string[];
+  explanation: string;
+  hints?: string[];
+  misconceptions?: string[];
+}
+
+// Runtime state per question
 type Confidence = 'think' | 'know';
 type QuestionPhase = 'answering' | 'selected' | 'feedback' | 'complete';
 type FeedbackType = 'confident-correct' | 'unsure-correct' | 'unsure-wrong' | 'confident-wrong';
 
 interface QuizQuestion {
-  item: MathItem;
-  options: string[];        // Shuffled A-D
+  item: QuizItem;
+  options: string[];
   correctIndex: number;
   selectedIndex: number | null;
   confidence: Confidence | null;
@@ -96,20 +112,11 @@ interface QuizQuestion {
 }
 ```
 
-## XP Scoring
-
-| Feedback Type | XP | Rationale |
-|---|---|---|
-| confident-correct | 15 | Full marks — you knew it and proved it |
-| unsure-correct | 10 | Right answer, but flagged for review |
-| confident-wrong | 5 | Misconception discovered — valuable learning |
-| unsure-wrong | 3 | Honest uncertainty rewarded |
-
 ## Backgrounds
 
 AI-generated via MuleRouter (wan2.6-t2i). Stored in `public/textures/`:
-- `math-doodle-{light,dark}-{1-4}.png` — math symbol doodles (1024x1024)
-- `vibecode-{light,dark}-{1-4}.png` — coding/AI/education doodles
+- `vibecode-{light,dark}-{1-4}.png` — coding/AI/education doodles (default)
+- `math-doodle-{light,dark}-{1-4}.png` — math symbol doodles
 
 Plus ~20 downloaded tileable textures as fallbacks.
 
@@ -128,13 +135,13 @@ src/components/quiz/
 ├── SessionSummary.tsx       # End-of-session results
 ├── DoodleBg.tsx             # PNG background renderer
 ├── theme.ts                 # Dark/light theme definitions
-├── types.ts                 # QuizQuestion, FeedbackType, XP scoring
-├── sample-questions.ts      # Demo MCQ items + shuffle/build utils
+├── types.ts                 # QuizItem, QuizQuestion, FeedbackType, XP scoring
+├── sample-questions.ts      # Vibe coding + math items, shuffle/build utils
 └── ARCHITECTURE.md          # This file
 
 src/app/quiz/
-├── page.tsx                 # Quiz launcher (start screen)
-├── play/page.tsx            # Quiz player (?theme=dark|light)
+├── page.tsx                 # Quiz launcher (topic picker)
+├── play/page.tsx            # Quiz player (?topic=X&tags=Y&theme=dark|light)
 └── backgrounds/page.tsx     # Background texture picker
 
 public/textures/             # AI-generated + downloaded background PNGs
