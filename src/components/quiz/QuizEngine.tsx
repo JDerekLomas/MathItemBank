@@ -168,7 +168,7 @@ export default function QuizEngine({
   return (
     <div className={`min-h-screen ${theme.pageBg} flex flex-col relative transition-colors duration-700`}>
       {/* AI-generated doodle background */}
-      <DoodleBg src={theme.doodleBg} opacity={theme.doodleOpacity} />
+      <DoodleBg src={theme.doodleBg} opacity={theme.doodleOpacity} tile={theme.doodleTile} />
 
       {/* Header */}
       <div className="px-6 pt-6 pb-4 relative z-10">

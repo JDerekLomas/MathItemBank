@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import DoodleBg from '@/components/quiz/DoodleBg';
 
 interface TopicCard {
   id: string;
@@ -65,9 +66,9 @@ const TOPICS: TopicCard[] = [
 ];
 
 const STEP_COLORS = [
-  { bg: 'bg-violet-100', text: 'text-violet-600', ring: 'ring-violet-200' },
-  { bg: 'bg-cyan-100', text: 'text-cyan-600', ring: 'ring-cyan-200' },
-  { bg: 'bg-emerald-100', text: 'text-emerald-600', ring: 'ring-emerald-200' },
+  { bg: 'bg-violet-500/20', text: 'text-violet-300', ring: 'ring-violet-500/30' },
+  { bg: 'bg-cyan-500/20', text: 'text-cyan-300', ring: 'ring-cyan-500/30' },
+  { bg: 'bg-emerald-500/20', text: 'text-emerald-300', ring: 'ring-emerald-500/30' },
 ];
 
 export default function QuizLauncher() {
@@ -77,13 +78,9 @@ export default function QuizLauncher() {
   const tagParam = selected.tags.length > 0 ? `&tags=${selected.tags.join(',')}` : '';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-violet-50/40 to-cyan-50/30 flex flex-col items-center justify-center px-6 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 -right-20 w-64 h-64 rounded-full bg-violet-200/20 blur-3xl" />
-        <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-cyan-200/20 blur-3xl" />
-        <div className="absolute top-1/3 left-1/4 w-40 h-40 rounded-full bg-rose-200/15 blur-3xl" />
-      </div>
+    <div className="min-h-screen bg-[#1a0a3e] flex flex-col items-center justify-center px-6 relative overflow-hidden">
+      {/* Doodle background */}
+      <DoodleBg src="/textures/vibecode-dark-2.png" opacity={0.3} tile />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -115,8 +112,8 @@ export default function QuizLauncher() {
         </motion.div>
 
         {/* Title */}
-        <h1 className="text-3xl font-bold text-stone-900 mb-2">AI Growth</h1>
-        <p className="text-stone-500 mb-8 leading-relaxed">
+        <h1 className="text-3xl font-bold text-white mb-2">AI Growth</h1>
+        <p className="text-white/50 mb-8 leading-relaxed">
           Learn to build with AI. Answer honestly — your confidence matters as much as your answer.
         </p>
 
@@ -133,21 +130,21 @@ export default function QuizLauncher() {
               onClick={() => setSelectedTopic(topic.id)}
               className={`w-full p-3.5 rounded-xl border-2 transition-all duration-150 ${
                 selectedTopic === topic.id
-                  ? 'border-violet-400 bg-white shadow-sm'
-                  : 'border-stone-200/60 bg-white/50 hover:border-stone-300'
+                  ? 'border-indigo-400 bg-[#2a1a5e] shadow-lg shadow-black/20'
+                  : 'border-[#3d2b7a] bg-[#2a1a5e] hover:border-indigo-400/50'
               }`}
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span className="text-xl">{topic.icon}</span>
                   <div>
-                    <div className="font-semibold text-stone-900 text-sm">
+                    <div className="font-semibold text-white text-sm">
                       {topic.label}
                     </div>
-                    <div className="text-xs text-stone-500">{topic.description}</div>
+                    <div className="text-xs text-white/50">{topic.description}</div>
                   </div>
                 </div>
-                <div className="text-xs font-semibold text-violet-600 px-2.5 py-1 rounded-full bg-violet-50 border border-violet-200/60">
+                <div className="text-xs font-semibold text-indigo-300 px-2.5 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/30">
                   {topic.count} Qs
                 </div>
               </div>
@@ -183,9 +180,9 @@ export default function QuizLauncher() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
-          className="mt-10 pt-8 border-t border-stone-200/50"
+          className="mt-10 pt-8 border-t border-white/10"
         >
-          <h3 className="text-xs font-semibold text-stone-400 uppercase tracking-wider mb-5">
+          <h3 className="text-xs font-semibold text-white/30 uppercase tracking-wider mb-5">
             How it works
           </h3>
           <div className="grid grid-cols-3 gap-4 text-center">
@@ -205,7 +202,7 @@ export default function QuizLauncher() {
                 >
                   {item.step}
                 </div>
-                <p className="text-xs text-stone-500 font-medium">{item.label}</p>
+                <p className="text-xs text-white/40 font-medium">{item.label}</p>
               </motion.div>
             ))}
           </div>

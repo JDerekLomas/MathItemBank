@@ -64,7 +64,7 @@ export default function SessionSummary({
       className={`min-h-screen flex flex-col items-center justify-center px-6 ${theme.summaryBg} relative overflow-hidden`}
     >
       {/* Background pattern */}
-      <DoodleBg src={theme.doodleBg} opacity={theme.doodleOpacity} />
+      <DoodleBg src={theme.doodleBg} opacity={theme.doodleOpacity} tile={theme.doodleTile} />
 
       <div className="w-full max-w-md relative z-10">
         {/* Score circle */}

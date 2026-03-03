@@ -12,6 +12,7 @@ export interface QuizTheme {
   // Doodle background image (AI-generated PNG)
   doodleBg: string;
   doodleOpacity: number;
+  doodleTile: boolean;
 
   // Question number badge
   badgeBg: string;
@@ -96,8 +97,9 @@ export const DARK_THEME: QuizTheme = {
 
   pageBg: 'bg-[#1a0a3e]',
 
-  doodleBg: '/textures/math-doodle-dark-2.png',
-  doodleOpacity: 0.35,
+  doodleBg: '/textures/vibecode-dark-2.png',
+  doodleOpacity: 0.3,
+  doodleTile: true,
 
   badgeBg: 'bg-white/15',
   badgeText: 'text-white/70',
@@ -157,8 +159,9 @@ export const LIGHT_THEME: QuizTheme = {
 
   pageBg: 'bg-[#f0f0f0]',
 
-  doodleBg: '/textures/math-doodle-light-1.png',
+  doodleBg: '/textures/vibecode-light-1.png',
   doodleOpacity: 0.15,
+  doodleTile: true,
 
   badgeBg: 'bg-indigo-100',
   badgeText: 'text-indigo-500',
