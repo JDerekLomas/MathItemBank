@@ -4,8 +4,8 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Math Item Bank Viewer',
-  description: 'Interactive viewer for K-12 math assessment items organized by grade level and standards',
+  title: 'AI Growth',
+  description: 'Learn to build with AI through confidence-based quizzes',
 };
 
 export default function RootLayout({

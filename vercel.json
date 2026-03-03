@@ -1,11 +1,14 @@
 {
-  "name": "math-item-bank-viewer",
+  "name": "ai-growth",
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
   "installCommand": "npm install",
   "framework": "nextjs",
+  "deploymentProtection": {
+    "deploymentType": "none"
+  },
   "env": {
-    "NEXT_PUBLIC_APP_NAME": "Math Item Bank Viewer"
+    "NEXT_PUBLIC_APP_NAME": "AI Growth"
   },
   "functions": {
     "src/app/api/data/route.ts": {

@@ -3,7 +3,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
-import { MathItem } from '@/types';
 import AnswerOption from './AnswerOption';
 import ConfidenceButtons from './ConfidenceButtons';
 import FeedbackPanel from './FeedbackPanel';
@@ -13,6 +12,7 @@ import SessionSummary from './SessionSummary';
 import DoodleBg from './DoodleBg';
 import { getThemeByMode, ThemeMode } from './theme';
 import {
+  QuizItem,
   QuizQuestion,
   Confidence,
   getFeedbackType,
@@ -21,7 +21,7 @@ import {
 import { buildQuizOptions, shuffleArray } from './sample-questions';
 
 interface QuizEngineProps {
-  items: MathItem[];
+  items: QuizItem[];
   sessionSize?: number;
   themeMode?: ThemeMode;
 }
@@ -161,8 +161,8 @@ export default function QuizEngine({
       : null;
   const misconception =
     selectedDistractorIndex !== null &&
-    current.item.metadata.commonMisconceptions?.length > 0
-      ? current.item.metadata.commonMisconceptions[0]
+    current.item.misconceptions?.length
+      ? current.item.misconceptions[0]
       : undefined;
 
   return (
@@ -289,7 +289,7 @@ function AutoContinue({
 }
 
 function initQuestions(
-  items: MathItem[],
+  items: QuizItem[],
   sessionSize: number
 ): QuizQuestion[] {
   const selected = shuffleArray(items).slice(0, sessionSize);

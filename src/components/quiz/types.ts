@@ -1,11 +1,24 @@
-import { MathItem } from '@/types';
-
 export type Confidence = 'think' | 'know';
 export type QuestionPhase = 'answering' | 'selected' | 'feedback' | 'complete';
 export type SessionPhase = 'warmup' | 'challenge' | 'resolution';
+export type Difficulty = 'beginning' | 'developing' | 'proficient' | 'advanced';
+
+export interface QuizItem {
+  id: string;
+  domain: string;
+  tags: string[];
+  difficulty: Difficulty;
+  title: string;
+  question: string;
+  correctAnswer: string;
+  distractors: string[];
+  explanation: string;
+  hints?: string[];
+  misconceptions?: string[];
+}
 
 export interface QuizQuestion {
-  item: MathItem;
+  item: QuizItem;
   options: string[];
   correctIndex: number;
   selectedIndex: number | null;
@@ -48,8 +61,8 @@ export function getXPForFeedback(type: FeedbackType): number {
     case 'unsure-correct':
       return 10;
     case 'unsure-wrong':
-      return 3; // Reward for honest self-assessment
+      return 3;
     case 'confident-wrong':
-      return 5; // Learning moment
+      return 5;
   }
 }
