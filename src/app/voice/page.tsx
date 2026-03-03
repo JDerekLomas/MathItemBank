@@ -3,7 +3,7 @@
 import { useConversation } from '@elevenlabs/react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import DoodleBg from '@/components/quiz/DoodleBg';
 
 const AGENT_ID = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID || '';
@@ -11,10 +11,22 @@ const AGENT_ID = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID || '';
 export default function VoiceAgentPage() {
   const [hasStarted, setHasStarted] = useState(false);
   const [error, setError] = useState('');
+  const [statusLog, setStatusLog] = useState<string[]>([]);
+  const startedRef = useRef(false);
 
   const conversation = useConversation({
+    onConnect: () => {
+      setStatusLog(prev => [...prev, 'Connected']);
+    },
+    onDisconnect: () => {
+      setStatusLog(prev => [...prev, 'Disconnected']);
+      setHasStarted(false);
+      startedRef.current = false;
+    },
     onError: (err: string | Error) => {
-      setError(typeof err === 'string' ? err : err.message || 'Connection error');
+      const msg = typeof err === 'string' ? err : err.message || 'Connection error';
+      setError(msg);
+      setStatusLog(prev => [...prev, `Error: ${msg}`]);
     },
   });
 
@@ -23,18 +35,25 @@ export default function VoiceAgentPage() {
       setError('Voice agent not configured yet. Set NEXT_PUBLIC_ELEVENLABS_AGENT_ID.');
       return;
     }
+    if (startedRef.current) return;
 
     try {
       setError('');
+      setStatusLog(prev => [...prev, 'Requesting mic...']);
       await navigator.mediaDevices.getUserMedia({ audio: true });
+      setStatusLog(prev => [...prev, 'Mic granted, connecting...']);
+      startedRef.current = true;
       await conversation.startSession({ agentId: AGENT_ID, connectionType: 'webrtc' });
       setHasStarted(true);
+      setStatusLog(prev => [...prev, 'Session started']);
     } catch (err) {
+      startedRef.current = false;
       if (err instanceof Error && err.name === 'NotAllowedError') {
         setError('Microphone access is required for voice conversations.');
       } else {
         setError(err instanceof Error ? err.message : 'Failed to start');
       }
+      setStatusLog(prev => [...prev, `Start failed: ${err instanceof Error ? err.message : err}`]);
     }
   }, [conversation]);
 
@@ -42,18 +61,10 @@ export default function VoiceAgentPage() {
     try {
       await conversation.endSession();
       setHasStarted(false);
+      startedRef.current = false;
     } catch {
       // Ignore end errors
     }
-  }, [conversation]);
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (conversation.status === 'connected') {
-        conversation.endSession();
-      }
-    };
   }, [conversation]);
 
   const isConnected = conversation.status === 'connected';
@@ -198,6 +209,22 @@ export default function VoiceAgentPage() {
               </motion.div>
             )}
           </div>
+
+          {/* Debug log */}
+          {statusLog.length > 0 && (
+            <div className="px-8 pb-4">
+              <details className="text-left">
+                <summary className="text-xs font-semibold text-stone-300 cursor-pointer">Debug log</summary>
+                <div className="mt-2 text-xs font-mono text-stone-400 space-y-0.5">
+                  {statusLog.map((log, i) => (
+                    <div key={i}>{log}</div>
+                  ))}
+                  <div>status: {conversation.status}</div>
+                  <div>isSpeaking: {String(conversation.isSpeaking)}</div>
+                </div>
+              </details>
+            </div>
+          )}
 
           {/* Text alternative link */}
           <div className="border-t-2 border-stone-100 px-8 py-4 text-center">
