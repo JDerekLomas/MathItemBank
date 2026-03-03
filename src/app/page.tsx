@@ -140,7 +140,7 @@ export default function HomePage() {
           transition={{ delay: 0.4 }}
           className="mb-10"
         >
-          <Link href="/quiz">
+          <Link href="/onboard">
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
