@@ -1,12 +1,12 @@
 # Math Item Bank Organization Report
 
-Generated on: 11/1/2025, 3:27:07 PM
+Generated on: 11/5/2025, 10:43:47 PM
 
 ## Overview
 
 - **Total Grades**: 1
 - **Total Standards**: 2
-- **Total Items**: 5
+- **Total Items**: 15
 - **Total Subskills**: 20
 - **Overall Coverage**: 0%
 

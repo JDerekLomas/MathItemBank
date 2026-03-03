@@ -95,7 +95,7 @@
     "metadata": {
       "totalGrades": 1,
       "totalStandards": 2,
-      "totalItems": 5,
+      "totalItems": 15,
       "totalSubskills": 20,
       "gradeLevels": [
         "11"
@@ -104,7 +104,7 @@
         "Algebra",
         "Geometry"
       ],
-      "lastUpdated": "2025-11-01T14:27:07.783Z"
+      "lastUpdated": "2025-11-05T21:43:47.708Z"
     }
   },
   "statistics": {
@@ -135,7 +135,7 @@
   "metadata": {
     "totalGrades": 1,
     "totalStandards": 2,
-    "totalItems": 5,
+    "totalItems": 15,
     "totalSubskills": 20,
     "gradeLevels": [
       "11"
@@ -144,8 +144,8 @@
       "Algebra",
       "Geometry"
     ],
-    "lastUpdated": "2025-11-01T14:27:07.783Z",
-    "organizedAt": "2025-11-01T14:27:07.784Z",
+    "lastUpdated": "2025-11-05T21:43:47.708Z",
+    "organizedAt": "2025-11-05T21:43:47.709Z",
     "sourceFiles": [
       "enhanced-item-bank.json",
       "subskills.csv"
