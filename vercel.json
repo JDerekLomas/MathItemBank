@@ -1,12 +1,8 @@
 {
-  "name": "ai-growth",
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
   "installCommand": "npm install",
   "framework": "nextjs",
-  "deploymentProtection": {
-    "deploymentType": "none"
-  },
   "env": {
     "NEXT_PUBLIC_APP_NAME": "AI Growth"
   },
