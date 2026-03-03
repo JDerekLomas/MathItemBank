@@ -5,7 +5,6 @@ import { Suspense, useMemo } from 'react';
 import QuizEngine from '@/components/quiz/QuizEngine';
 import {
   vibecodingQuestions,
-  mathQuestions,
 } from '@/components/quiz/sample-questions';
 import { ThemeMode } from '@/components/quiz/theme';
 import { QuizItem } from '@/components/quiz/types';
@@ -18,8 +17,6 @@ function QuizPlayInner() {
   const themeMode: ThemeMode = themeParam === 'light' ? 'light' : 'dark';
 
   const items: QuizItem[] = useMemo(() => {
-    if (topicParam === 'math') return mathQuestions;
-
     if (tagsParam) {
       const tags = tagsParam.split(',');
       const filtered = vibecodingQuestions.filter((q) =>

@@ -1,102 +1,5 @@
 import { QuizItem } from './types';
 
-// ── Math items (legacy, still functional) ────────────────────────────
-
-export const mathQuestions: QuizItem[] = [
-  {
-    id: 'math_1',
-    domain: 'math',
-    tags: ['linear-equations', 'algebra'],
-    difficulty: 'developing',
-    title: 'Solving Linear Equations',
-    question: 'Solve for x: 3x + 7 = 22',
-    correctAnswer: '5',
-    distractors: ['3', '7', '15'],
-    explanation:
-      'Subtract 7 from both sides: 3x = 15. Then divide both sides by 3: x = 5. If you chose 15, you forgot to divide by 3. If you chose 7, you confused the constant with the answer.',
-    hints: ['First isolate the variable term', 'Subtract 7 from both sides'],
-    misconceptions: ['Forgetting to divide by the coefficient after isolating'],
-  },
-  {
-    id: 'math_2',
-    domain: 'math',
-    tags: ['fractions', 'addition'],
-    difficulty: 'developing',
-    title: 'Fraction Operations',
-    question: 'What is 2/3 + 1/4?',
-    correctAnswer: '11/12',
-    distractors: ['3/7', '3/12', '8/12'],
-    explanation:
-      'Find a common denominator (12). Convert: 8/12 + 3/12 = 11/12. If you chose 3/7, you added numerators and denominators separately. If you chose 3/12, you only converted one fraction.',
-    misconceptions: ['Adding numerators and denominators separately'],
-  },
-  {
-    id: 'math_3',
-    domain: 'math',
-    tags: ['geometry', 'area'],
-    difficulty: 'proficient',
-    title: 'Area of Triangles',
-    question: 'A triangle has a base of 10 cm and a height of 6 cm. What is its area?',
-    correctAnswer: '30 cm²',
-    distractors: ['60 cm²', '16 cm²', '36 cm²'],
-    explanation:
-      'Area = (1/2) × base × height = (1/2) × 10 × 6 = 30 cm². If you chose 60, you forgot to multiply by 1/2. If you chose 16, you added instead of multiplying.',
-    misconceptions: ['Forgetting to halve (using rectangle formula instead)'],
-  },
-  {
-    id: 'math_4',
-    domain: 'math',
-    tags: ['order-of-operations'],
-    difficulty: 'beginning',
-    title: 'Order of Operations',
-    question: 'What is 3 + 4 × 2?',
-    correctAnswer: '11',
-    distractors: ['14', '10', '24'],
-    explanation:
-      'Multiplication before addition (PEMDAS). 4 × 2 = 8, then 3 + 8 = 11. If you chose 14, you added first then multiplied.',
-    misconceptions: ['Computing left-to-right without respecting precedence'],
-  },
-  {
-    id: 'math_5',
-    domain: 'math',
-    tags: ['percentages'],
-    difficulty: 'proficient',
-    title: 'Percentage Calculations',
-    question: 'A shirt costs $80 and is 25% off. What is the sale price?',
-    correctAnswer: '$60',
-    distractors: ['$55', '$65', '$20'],
-    explanation:
-      '25% of $80 = $20 discount. Sale price = $80 - $20 = $60. If you chose $20, that\'s the discount, not the price.',
-    misconceptions: ['Reporting the discount amount instead of the final price'],
-  },
-  {
-    id: 'math_6',
-    domain: 'math',
-    tags: ['negative-numbers', 'integers'],
-    difficulty: 'developing',
-    title: 'Negative Numbers',
-    question: 'What is -8 + 3?',
-    correctAnswer: '-5',
-    distractors: ['-11', '5', '11'],
-    explanation:
-      'Starting at -8, move 3 right on the number line: -5. If you chose -11, you subtracted instead of adding.',
-    misconceptions: ['Subtracting instead of adding when one number is negative'],
-  },
-  {
-    id: 'math_7',
-    domain: 'math',
-    tags: ['ratio', 'proportion'],
-    difficulty: 'proficient',
-    title: 'Ratio and Proportion',
-    question: 'Boys to girls ratio is 3:5, 24 students total. How many girls?',
-    correctAnswer: '15',
-    distractors: ['9', '12', '16'],
-    explanation:
-      '3+5=8 parts. Each part = 24÷8 = 3. Girls = 5×3 = 15. If you chose 9, you found boys instead.',
-    misconceptions: ['Calculating the wrong part of the ratio'],
-  },
-];
-
 // ── Vibe Coding items ────────────────────────────────────────────────
 
 export const vibecodingQuestions: QuizItem[] = [
@@ -1767,7 +1670,7 @@ export const vibecodingQuestions: QuizItem[] = [
 
 export const sampleQuestions: QuizItem[] = vibecodingQuestions;
 
-export const allQuestions: QuizItem[] = [...vibecodingQuestions, ...mathQuestions];
+export const allQuestions: QuizItem[] = [...vibecodingQuestions];
 
 export function getQuestionsByDomain(domain: string): QuizItem[] {
   return allQuestions.filter((q) => q.domain === domain);

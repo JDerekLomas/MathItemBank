@@ -6,6 +6,28 @@ import DoodleBg from '@/components/quiz/DoodleBg';
 
 const PATHS = [
   {
+    label: 'Discover What to Build',
+    description: 'A quick conversation to figure out what actually excites you',
+    href: '/discover',
+    color: 'bg-indigo-500',
+    icon: (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
+      </svg>
+    ),
+  },
+  {
+    label: 'Voice Discovery',
+    description: 'Talk through what you want to build — same interview, with your voice',
+    href: '/voice',
+    color: 'bg-violet-600',
+    icon: (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+      </svg>
+    ),
+  },
+  {
     label: 'Practice Quiz',
     description: 'Test what you know with confidence-based questions',
     href: '/quiz',
@@ -20,7 +42,7 @@ const PATHS = [
     label: 'Learn Vibe Coding',
     description: 'Structured path from first conversation to shipped product',
     href: 'https://learnvibecoding.vercel.app/skill-map',
-    color: 'bg-indigo-500',
+    color: 'bg-teal-500',
     icon: (
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z" />
@@ -29,14 +51,16 @@ const PATHS = [
     ),
   },
   {
-    label: 'Item Bank',
-    description: 'Browse K-12 math standards and assessment items',
-    href: '/skills',
-    color: 'bg-emerald-500',
+    label: 'Community',
+    description: 'Share projects, quiz questions, and failure stories',
+    href: '/community',
+    color: 'bg-pink-500',
     icon: (
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" />
-        <rect x="3" y="14" width="7" height="7" /><rect x="14" y="14" width="7" height="7" />
+        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <path d="M23 21v-2a4 4 0 00-3-3.87" />
+        <path d="M16 3.13a4 4 0 010 7.75" />
       </svg>
     ),
   },
@@ -140,7 +164,7 @@ export default function HomePage() {
           transition={{ delay: 0.4 }}
           className="mb-10"
         >
-          <Link href="/onboard">
+          <Link href="/discover">
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
@@ -154,7 +178,7 @@ export default function HomePage() {
                 cursor-pointer
               "
             >
-              Start Learning
+              Find Your Project
             </motion.button>
           </Link>
         </motion.div>
