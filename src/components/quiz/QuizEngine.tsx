@@ -10,8 +10,7 @@ import FeedbackPanel from './FeedbackPanel';
 import ProgressBar from './ProgressBar';
 import XPFloat from './XPFloat';
 import SessionSummary from './SessionSummary';
-import MathDoodleBg from './MathDoodleBg';
-import PolkaDotBg from './PolkaDotBg';
+import DoodleBg from './DoodleBg';
 import { getThemeByMode, ThemeMode } from './theme';
 import {
   QuizQuestion,
@@ -168,12 +167,8 @@ export default function QuizEngine({
 
   return (
     <div className={`min-h-screen ${theme.pageBg} flex flex-col relative transition-colors duration-700`}>
-      {/* Background pattern — dark gets math doodles, light gets polka dots */}
-      {theme.mode === 'dark' ? (
-        <MathDoodleBg color={theme.patternColor} opacity={theme.patternOpacity} />
-      ) : (
-        <PolkaDotBg color={theme.patternColor} opacity={theme.patternOpacity} />
-      )}
+      {/* AI-generated doodle background */}
+      <DoodleBg src={theme.doodleBg} opacity={theme.doodleOpacity} />
 
       {/* Header */}
       <div className="px-6 pt-6 pb-4 relative z-10">

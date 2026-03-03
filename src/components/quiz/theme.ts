@@ -9,9 +9,9 @@ export interface QuizTheme {
   // Page background
   pageBg: string;
 
-  // Doodle pattern color for MathDoodleBg / PolkaDotBg
-  patternColor: string;
-  patternOpacity: number;
+  // Doodle background image (AI-generated PNG)
+  doodleBg: string;
+  doodleOpacity: number;
 
   // Question number badge
   badgeBg: string;
@@ -21,11 +21,12 @@ export interface QuizTheme {
   questionText: string;
   questionSubtext: string;
 
-  // Answer cards (unselected)
+  // Answer cards (unselected) — FULLY OPAQUE, no transparency
   cardBg: string;
   cardBorder: string;
   cardHoverBg: string;
   cardText: string;
+  cardShadow: string;
 
   // Answer label badges (A/B/C/D) — per-answer colors
   answerColors: Array<{ bg: string; text: string; border: string }>;
@@ -74,7 +75,7 @@ export interface QuizTheme {
   btnSecondaryText: string;
 }
 
-// Kahoot-inspired answer colors (red, blue, green, amber)
+// Kahoot-inspired answer label colors (bold, saturated)
 const DARK_ANSWER_COLORS = [
   { bg: 'bg-red-500', text: 'text-white', border: 'border-red-500' },
   { bg: 'bg-blue-500', text: 'text-white', border: 'border-blue-500' },
@@ -82,12 +83,12 @@ const DARK_ANSWER_COLORS = [
   { bg: 'bg-amber-500', text: 'text-white', border: 'border-amber-500' },
 ];
 
-// Duolingo-inspired answer colors (soft colored left borders)
+// Duolingo-inspired answer label colors (solid colored badges)
 const LIGHT_ANSWER_COLORS = [
-  { bg: 'bg-indigo-50', text: 'text-indigo-600', border: 'border-indigo-400' },
-  { bg: 'bg-rose-50', text: 'text-rose-600', border: 'border-rose-400' },
-  { bg: 'bg-teal-50', text: 'text-teal-600', border: 'border-teal-400' },
-  { bg: 'bg-amber-50', text: 'text-amber-600', border: 'border-amber-400' },
+  { bg: 'bg-indigo-500', text: 'text-white', border: 'border-indigo-500' },
+  { bg: 'bg-rose-500', text: 'text-white', border: 'border-rose-500' },
+  { bg: 'bg-teal-500', text: 'text-white', border: 'border-teal-500' },
+  { bg: 'bg-amber-500', text: 'text-white', border: 'border-amber-500' },
 ];
 
 export const DARK_THEME: QuizTheme = {
@@ -95,26 +96,28 @@ export const DARK_THEME: QuizTheme = {
 
   pageBg: 'bg-[#1a0a3e]',
 
-  patternColor: '#FFFFFF',
-  patternOpacity: 0.04,
+  doodleBg: '/textures/math-doodle-dark-2.png',
+  doodleOpacity: 0.35,
 
-  badgeBg: 'bg-white/10',
-  badgeText: 'text-white/60',
+  badgeBg: 'bg-white/15',
+  badgeText: 'text-white/70',
 
   questionText: 'text-white',
   questionSubtext: 'text-white/40',
 
-  cardBg: 'bg-white/[0.08]',
-  cardBorder: 'border-white/[0.12]',
-  cardHoverBg: 'hover:bg-white/[0.14]',
-  cardText: 'text-white/90',
+  // Solid dark cards — no transparency
+  cardBg: 'bg-[#2a1a5e]',
+  cardBorder: 'border-[#3d2b7a]',
+  cardHoverBg: 'hover:bg-[#342470]',
+  cardText: 'text-white',
+  cardShadow: 'shadow-lg shadow-black/20',
 
   answerColors: DARK_ANSWER_COLORS,
 
-  selectedBg: 'bg-indigo-600/40',
+  selectedBg: 'bg-indigo-600',
   selectedBorder: 'border-indigo-400',
   selectedText: 'text-white',
-  selectedRing: 'ring-indigo-400/40',
+  selectedRing: 'ring-indigo-400/50',
 
   progressTrackBg: 'bg-white/10',
   progressFillColor: '#818CF8',
@@ -126,26 +129,26 @@ export const DARK_THEME: QuizTheme = {
   closeBtnText: 'text-white/40',
   closeBtnHover: 'hover:text-white/70 hover:bg-white/10',
 
-  thinkBg: 'bg-white/[0.08]',
-  thinkBorder: 'border-white/20',
+  thinkBg: 'bg-[#2a1a5e]',
+  thinkBorder: 'border-[#3d2b7a]',
   thinkText: 'text-white/80',
   knowBg: 'bg-indigo-500',
   knowBorder: 'border-indigo-500',
   knowText: 'text-white',
 
   summaryBg: 'bg-[#1a0a3e]',
-  scoreBg: 'bg-indigo-500/20',
+  scoreBg: 'bg-[#2a1a5e]',
   scoreBorder: 'border-indigo-400/40',
   scoreText: 'text-indigo-300',
   scoreLabel: 'text-indigo-400/60',
-  cardCorrectBg: 'bg-emerald-500/10',
-  cardCorrectBorder: 'border-emerald-500/30',
-  cardWrongBg: 'bg-red-500/10',
-  cardWrongBorder: 'border-red-500/30',
+  cardCorrectBg: 'bg-emerald-900/40',
+  cardCorrectBorder: 'border-emerald-500/40',
+  cardWrongBg: 'bg-red-900/40',
+  cardWrongBorder: 'border-red-500/40',
   btnPrimaryBg: 'bg-indigo-500 hover:bg-indigo-600',
   btnPrimaryText: 'text-white',
-  btnSecondaryBg: 'bg-white/[0.08]',
-  btnSecondaryBorder: 'border-white/20',
+  btnSecondaryBg: 'bg-[#2a1a5e]',
+  btnSecondaryBorder: 'border-[#3d2b7a]',
   btnSecondaryText: 'text-white/70',
 };
 
@@ -154,8 +157,8 @@ export const LIGHT_THEME: QuizTheme = {
 
   pageBg: 'bg-[#f0f0f0]',
 
-  patternColor: '#6366F1',
-  patternOpacity: 0.06,
+  doodleBg: '/textures/math-doodle-light-1.png',
+  doodleOpacity: 0.15,
 
   badgeBg: 'bg-indigo-100',
   badgeText: 'text-indigo-500',
@@ -163,10 +166,12 @@ export const LIGHT_THEME: QuizTheme = {
   questionText: 'text-stone-900',
   questionSubtext: 'text-stone-400',
 
+  // Solid white cards — thick border, strong shadow (Duolingo-style)
   cardBg: 'bg-white',
   cardBorder: 'border-stone-200',
   cardHoverBg: 'hover:bg-stone-50',
-  cardText: 'text-stone-700',
+  cardText: 'text-stone-800',
+  cardShadow: 'shadow-md shadow-stone-200/60',
 
   answerColors: LIGHT_ANSWER_COLORS,
 
