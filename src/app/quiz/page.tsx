@@ -20,7 +20,7 @@ const TOPICS: TopicCard[] = [
     label: 'Mixed Practice',
     description: 'All vibe coding topics',
     tags: [],
-    count: 30,
+    count: 96,
     color: 'violet',
   },
   {
@@ -28,7 +28,7 @@ const TOPICS: TopicCard[] = [
     label: 'Prompt Engineering',
     description: 'Write prompts that get great code',
     tags: ['prompt-engineering'],
-    count: 6,
+    count: 12,
     color: 'amber',
   },
   {
@@ -36,7 +36,7 @@ const TOPICS: TopicCard[] = [
     label: 'Reading AI Code',
     description: 'Spot bugs, understand output',
     tags: ['reading-code'],
-    count: 6,
+    count: 12,
     color: 'blue',
   },
   {
@@ -44,15 +44,15 @@ const TOPICS: TopicCard[] = [
     label: 'Dev Tooling',
     description: 'Git, npm, terminals, deployment',
     tags: ['tooling'],
-    count: 6,
+    count: 12,
     color: 'emerald',
   },
   {
     id: 'web',
     label: 'Web Fundamentals',
     description: 'React, Next.js, Tailwind, APIs',
-    tags: ['react', 'nextjs', 'tailwind', 'deployment'],
-    count: 4,
+    tags: ['react', 'nextjs', 'tailwind', 'deployment', 'css', 'server-components', 'responsive', 'api', 'forms', 'performance'],
+    count: 10,
     color: 'red',
   },
   {
@@ -60,8 +60,48 @@ const TOPICS: TopicCard[] = [
     label: 'Debugging with AI',
     description: 'Fix errors, read logs, ship faster',
     tags: ['debugging'],
-    count: 4,
+    count: 10,
     color: 'indigo',
+  },
+  {
+    id: 'testing',
+    label: 'Testing & Quality',
+    description: 'Unit tests, CI/CD, and code quality',
+    tags: ['testing'],
+    count: 8,
+    color: 'cyan',
+  },
+  {
+    id: 'security',
+    label: 'Security',
+    description: 'XSS, auth, secrets, and safe coding',
+    tags: ['security'],
+    count: 8,
+    color: 'rose',
+  },
+  {
+    id: 'ai-tool-selection',
+    label: 'AI Tool Selection',
+    description: 'Pick the right AI tool for the job',
+    tags: ['ai-tool-selection'],
+    count: 8,
+    color: 'purple',
+  },
+  {
+    id: 'architecture',
+    label: 'Architecture',
+    description: 'Components, state, APIs, databases',
+    tags: ['architecture'],
+    count: 8,
+    color: 'orange',
+  },
+  {
+    id: 'shipping-deploy',
+    label: 'Shipping & Deploy',
+    description: 'DNS, previews, monitoring, rollbacks',
+    tags: ['shipping-deploy'],
+    count: 8,
+    color: 'teal',
   },
 ];
 
@@ -72,6 +112,11 @@ const TOPIC_COLORS: Record<string, { iconBg: string; selectedBorder: string; sel
   emerald: { iconBg: 'bg-emerald-500', selectedBorder: 'border-emerald-400', selectedShadow: 'shadow-emerald-200/60' },
   red: { iconBg: 'bg-red-500', selectedBorder: 'border-red-400', selectedShadow: 'shadow-red-200/60' },
   indigo: { iconBg: 'bg-indigo-500', selectedBorder: 'border-indigo-400', selectedShadow: 'shadow-indigo-200/60' },
+  cyan: { iconBg: 'bg-cyan-500', selectedBorder: 'border-cyan-400', selectedShadow: 'shadow-cyan-200/60' },
+  rose: { iconBg: 'bg-rose-500', selectedBorder: 'border-rose-400', selectedShadow: 'shadow-rose-200/60' },
+  purple: { iconBg: 'bg-purple-500', selectedBorder: 'border-purple-400', selectedShadow: 'shadow-purple-200/60' },
+  orange: { iconBg: 'bg-orange-500', selectedBorder: 'border-orange-400', selectedShadow: 'shadow-orange-200/60' },
+  teal: { iconBg: 'bg-teal-500', selectedBorder: 'border-teal-400', selectedShadow: 'shadow-teal-200/60' },
 };
 
 function TopicIcon({ topic }: { topic: string }) {
@@ -106,6 +151,31 @@ function TopicIcon({ topic }: { topic: string }) {
     debugging: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+    ),
+    testing: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 11l3 3L22 4" /><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
+      </svg>
+    ),
+    security: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      </svg>
+    ),
+    'ai-tool-selection': (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" />
+      </svg>
+    ),
+    architecture: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18" /><path d="M9 21V9" />
+      </svg>
+    ),
+    'shipping-deploy': (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 12l5 5L20 7" />
       </svg>
     ),
   };
